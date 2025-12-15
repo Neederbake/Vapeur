@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  title       String                 // Le titre
+  description String   @default("") // La description
+  released    DateTime @default(now()) // Date de sortie
+  coverUrl    String?                // Visuel ou logo
+  typeId      Int?                                  // ID du genre
+  type        Type?    @relation("PrimaryType", fields: [typeId], references: [id], onDelete: SetNull) // Genre principal
+  typeLinks   GameType[] @relation("SecondaryTypes") // Types secondaires (N-N)
+  editorId    Int?                                  // ID de l'éditeur
+  editor      Editor?  @relation("PrimaryEditor", fields: [editorId], references: [id], onDelete: SetNull) // Éditeur principal
+  editorLinks GameEditor[] @relation("CoEditors")   // Co-éditeurs (N-N)
+  highlight   Boolean  @default(false)              // Mis en avant
+  createdAt   DateTime @default(now())              // Date de création de la fiche
+  updatedAt   DateTime @updatedAt                   // Mise à jour automatique
+
+  @@index([title])
+  @@index([released])
+}
+
+model Type {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  games     Game[]   @relation("PrimaryType") // Jeux associés à ce genre (principal)
+  gameLinks GameType[] @relation("SecondaryTypes")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([name])
+}
+
+model Editor {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  games     Game[]   @relation("PrimaryEditor") // Jeux associés à cet éditeur (principal)
+  gameLinks GameEditor[] @relation("CoEditors")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([name])
+}
+
+// Table de liaison pour gérer plusieurs genres par jeu
+model GameType {
+  gameId     Int
+  typeId     Int
+  assignedAt DateTime @default(now())
+
+  game Game @relation("SecondaryTypes", fields: [gameId], references: [id], onDelete: Cascade)
+  type Type @relation("SecondaryTypes", fields: [typeId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, typeId])
+  @@index([typeId])
+}
+
+// Table de liaison pour gérer plusieurs éditeurs par jeu
+model GameEditor {
+  gameId     Int
+  editorId   Int
+  role       String? // Ex: portage, co-édition, distribution
+  assignedAt DateTime @default(now())
+
+  game   Game   @relation("CoEditors", fields: [gameId], references: [id], onDelete: Cascade)
+  editor Editor @relation("CoEditors", fields: [editorId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, editorId])
+  @@index([editorId])
+}

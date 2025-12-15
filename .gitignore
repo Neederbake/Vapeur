@@ -1,0 +1,10 @@
+node_modules
+
+/generated/prisma
+
+.env
+
+database.db
+dev.db
+
+migrations
