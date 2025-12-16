@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 const PORT = 3008;
 
 
-
 //////////////////////////////////////////////////////////////////////////////
 //////////////////// MIDDLEWARE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
@@ -39,20 +38,7 @@ app.get("/", async (req, res) => {
             orderBy: { nom: 'asc' },
         });
         
-        const gamesHTML = games.length > 0
-            ? games.map(game => `
-                <div class="game-card">
-                    <h2><a href="/games/${game.id}">${game.title}</a></h2>
-                    <p>${game.description}</p>
-                    <div class="game-info">
-                        ${game.type ? `<span class="badge">Genre: <a href="/types/${game.type.id}">${game.type.name}</a></span>` : ''}
-                        ${game.editor ? `<span class="badge">Éditeur: <a href="/editors/${game.editor.id}">${game.editor.name}</a></span>` : ''}
-                    </div>
-                </div>
-            `).join('')
-            : '<p>Aucun jeu mis en avant pour le moment.</p><p><a href="/games/new">Ajouter un jeu</a></p>';
-        
-        res.render("index", { gamesHTML, hasGames: games.length > 0 });
+        res.render("index", { games, hasGames: games.length > 0 });
     } catch (error) {
         console.error("Erreur accueil:", error);
         res.status(500).send("Erreur serveur");
@@ -82,27 +68,7 @@ app.get("/games", async (req, res) => {
             orderBy: { nom: 'asc' },
         });
         
-        const gamesHTML = games.length > 0
-            ? games.map(game => `
-                <div class="game-item">
-                    <h2><a href="/games/${game.id}">${game.title}</a></h2>
-                    <p>${game.description}</p>
-                    <div class="game-meta">
-                        ${game.type ? `<span class="badge">Genre: <a href="/types/${game.type.id}">${game.type.name}</a></span>` : ''}
-                        ${game.editor ? `<span class="badge">Éditeur: <a href="/editors/${game.editor.id}">${game.editor.name}</a></span>` : ''}
-                        ${game.highlight ? '<span class="badge badge-highlight">⭐ Mis en avant</span>' : ''}
-                    </div>
-                    <div class="actions">
-                        <a href="/games/${game.id}/edit" class="btn btn-secondary">Modifier</a>
-                        <form action="/games/${game.id}/delete" method="POST" style="display: inline;">
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?')">Supprimer</button>
-                        </form>
-                    </div>
-                </div>
-            `).join('')
-            : '<p>Aucun jeu dans la collection.</p>';
-        
-        res.render("games/index", { gamesHTML, hasGames: games.length > 0 });
+        res.render("games/index", { games, hasGames: games.length > 0 });
     } catch (error) {
         console.error("Erreur liste jeux:", error);
         res.status(500).send("Erreur serveur");
