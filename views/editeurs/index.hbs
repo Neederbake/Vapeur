@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Éditeurs</h1>
+        <a href="/editors/new" class="btn btn-primary">➕ Nouvel éditeur</a>
+    </div>
+
+    {{#if editors}}
+        <ul class="simple-list">
+            {{#each editors}}
+                <li>
+                    <a href="/editors/{{this.id}}" class="list-link">{{this.nom}}</a>
+                    <a href="/editors/{{this.id}}/edit" class="list-action">✏️ Modifier</a>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <div class="empty-state">
+            <p>Aucun éditeur pour le moment.</p>
+            <a href="/editors/new" class="btn btn-primary">Créer un éditeur</a>
+        </div>
+    {{/if}}
+</div>
+
+<style>
+.container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.page-header h1 { color: #00d4ff; margin: 0; }
+.btn { padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; }
+.btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #0f0f1e; }
+.simple-list { list-style: none; padding: 0; margin: 0; }
+.simple-list li { display: flex; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(0,212,255,0.2); }
+.list-link { color: #e0e0e0; text-decoration: none; }
+.list-link:hover { color: #00d4ff; }
+.list-action { color: #00d4ff; text-decoration: none; font-size: 0.9rem; }
+.list-action:hover { text-decoration: underline; }
+.empty-state { text-align: center; padding: 2rem; border: 1px dashed rgba(0,212,255,0.3); border-radius: 8px; }
+</style>
