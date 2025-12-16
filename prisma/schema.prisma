@@ -13,36 +13,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Jeux{
   id          Int      @id @default(autoincrement())
-  nom         String
+  titre       String
   description String
+  genre       String
   createdAt   DateTime @default(now())
-  editor      String @default("")
-  hilighted   Boolean @default(false)
-
-  editeur     Editeurs?  @relation(fields: [editeurId], references: [id])
-  editeurId   Int?   
+  featured    Boolean @default(false)
   genres      JeuxGenres[]
+  editeurId   Int
+  editeur     Editeurs @relation(fields: [editeurId], references: [id])
 }
 
 
 model Genres{
   id        Int      @id @default(autoincrement())
-  nom       String   @unique
-
-  jeux  JeuxGenres[]
+  nom       String
+  jeux      JeuxGenres[]
 }
 
 
 model JeuxGenres {
   jeu     Jeux @relation(fields: [jeuId], references: [id], onDelete: Cascade)
   jeuId   Int
-
   genre   Genres    @relation(fields: [genreId], references: [id], onDelete: Cascade)
   genreId Int
-
   @@id    ([jeuId, genreId])
 }
 
@@ -50,6 +45,5 @@ model JeuxGenres {
 model Editeurs{
   id        Int      @id @default(autoincrement())
   nom       String
-
   jeux_publies Jeux[]
 }

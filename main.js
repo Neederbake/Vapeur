@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const bodyParser = require("body-parser");
@@ -35,9 +33,9 @@ hbs.registerPartials(path.join(__dirname, "views", "partials"));
 app.get("/", async (req, res) => {
     try {
         const games = await prisma.jeux.findMany({
-            where: { hilighted: true }, // ceux qui sont en avant
+            where: { featured: true }, // ceux qui sont en avant
             include: { editeur: true },
-            orderBy: { nom: 'asc' },
+            orderBy: { titre: 'asc' },
         });
         
         res.render("index", { games, hasGames: games.length > 0 });
@@ -66,12 +64,11 @@ app.get("/", async (req, res) => {
 app.get("/games", async (req, res) => {
     try {
         const games = await prisma.jeux.findMany({
-            //////// Cette ligne est potentiellement à enlever
             include: { editeur: true },
-            orderBy: { nom: 'asc' },
+            orderBy: { titre: 'asc' },
         });
         
-        res.render("games/index", { games, hasGames: games.length > 0 });
+        res.render("jeux/index", { games, hasGames: games.length > 0 });
     } catch (error) {
         console.error("Erreur liste jeux:", error);
         res.status(500).send("Erreur serveur");
@@ -84,7 +81,7 @@ app.get("/games/new", async (req, res) => {
         const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
         const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
-        res.render("games/new", { types, editors });
+        res.render("jeux/new", { types, editors });
     } catch (error) {
         console.error("Erreur formulaire jeu:", error);
         res.status(500).send("Erreur serveur");
@@ -94,15 +91,15 @@ app.get("/games/new", async (req, res) => {
 // Créer un jeu
 app.post("/games", async (req, res) => {
     try {
-        const { nom, description, genreId, editeurId, hilighted } = req.body;
+        const { titre, description, genre, editeurId, featured } = req.body;
         
         await prisma.jeux.create({
             data: {
-                nom,
+                titre,
                 description: description || "",
-                genre: genreId || "",
+                genre: genre || "",
                 editeurId: editeurId ? parseInt(editeurId) : null,
-                hilighted: hilighted === "on",
+                featured: featured === "on",
             },
         });
         
@@ -122,7 +119,7 @@ app.get("/games/:id", async (req, res) => {
         });
         
         if (!game) return res.status(404).send("Jeu non trouvé");
-        res.render("games/details", { game });
+        res.render("jeux/details", { game });
     } catch (error) {
         console.error("Erreur détail jeu:", error);
         res.status(500).send("Erreur serveur");
@@ -142,7 +139,7 @@ app.get("/games/:id/edit", async (req, res) => {
         const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
         const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
-        res.render("games/edit", { game, types, editors });
+        res.render("jeux/edit", { game, types, editors });
     } catch (error) {
         console.error("Erreur formulaire edit jeu:", error);
         res.status(500).send("Erreur serveur");
@@ -152,43 +149,36 @@ app.get("/games/:id/edit", async (req, res) => {
 // Mettre à jour un jeu
 app.post("/games/:id/edit", async (req, res) => {
     try {
-        // à bidouiller mais en gros ça devrais être bon
-        const { nom, description, genre, createAt, editor, hilighted } = req.body;
-        const jeuId = parseInt(request.params.id);
+        const { titre, description, genre, editeurId, featured } = req.body;
 
         await prisma.jeux.update({
             where: { id: parseInt(req.params.id) },
             data: {
-                // On complète par les variables ou autre chose
-                nom,
+                titre,
                 description: description || "",
                 genre: genre || "",
-                createdAt : createAt || null, // Je savais pas si y a autre chose que null
-                editor: editor || "",
-                hilighted: hilighted === "on",
+                editeurId: editeurId ? parseInt(editeurId) : null,
+                featured: featured === "on",
             },
         });
         res.redirect(`/games/${req.params.id}`);
     } 
-    // Toujours au cas ou, on verifie les erreurs
     catch (error) {
-        console.error("Erreur mise à jour gu jeu : ", error);
+        console.error("Erreur mise à jour jeu : ", error);
         res.status(500).send("Erreur lors de la mise à jour");
     }
 });
 
 // Validé
 // Post pour supprimer un jeu 
-app.post("/games/:id/delete", async (req, result) => {
+app.post("/games/:id/delete", async (req, res) => {
     try {
-        //On essaie de supprimer le jeux ou l'ID est id
         await prisma.jeux.delete({ where: { id: parseInt(req.params.id) } });
-        result.redirect("/games");
+        res.redirect("/games");
     } 
-    // Voila voila, l'erreur
     catch (error) {
         console.error("Erreur suppression de jeu : ", error);
-        result.status(500).send("Erreur lors de la suppression");
+        res.status(500).send("Erreur lors de la suppression");
     }
 });
 
@@ -210,7 +200,7 @@ app.get("/types", async (req, res) => {
         });
 
        
-        res.render("types/index", { types });
+        res.render("genres/index", { types });
     } catch (error) {
         console.error("Erreur liste genres:", error);
         res.status(500).send("Erreur serveur");
@@ -226,7 +216,7 @@ app.get("/types/:id", async (req, res) => {
         });
         
         if (!type) return res.status(404).send("Genre non trouvé");
-        res.render("types/details", { type });
+        res.render("genres/details", { type });
     } catch (error) {
         console.error("Erreur détail genre:", error);
         res.status(500).send("Erreur serveur");
@@ -255,7 +245,7 @@ app.get("/editors", async (req, res) => {
             orderBy: { nom: 'asc' },
         });
         
-        res.render("editors/index", { editors });
+        res.render("editeurs/index", { editors });
     } catch (error) {
         console.error("Erreur liste éditeurs:", error);
         res.status(500).send("Erreur serveur");
@@ -264,7 +254,7 @@ app.get("/editors", async (req, res) => {
 
 // Formulaire création éditeur
 app.get("/editors/new", (req, res) => {
-    res.render("editors/new");
+    res.render("editeurs/new");
 });
 
 // Créer un éditeur
@@ -287,7 +277,7 @@ app.get("/editors/:id", async (req, res) => {
         });
         
         if (!editor) return res.status(404).send("Éditeur non trouvé");
-        res.render("editors/details", { editor });
+        res.render("editeurs/details", { editor });
     } catch (error) {
         console.error("Erreur détail éditeur:", error);
         res.status(500).send("Erreur serveur");
@@ -302,7 +292,7 @@ app.get("/editors/:id/edit", async (req, res) => {
         });
         
         if (!editor) return res.status(404).send("Éditeur non trouvé");
-        res.render("editors/edit", { editor });
+        res.render("editeurs/edit", { editor });
     } catch (error) {
         console.error("Erreur formulaire edit éditeur:", error);
         res.status(500).send("Erreur serveur");
