@@ -1,0 +1,237 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Éditeurs de jeux vidéo</h1>
+        <a href="/editors/new" class="btn btn-primary">
+            <span>➕</span> Nouvel éditeur
+        </a>
+    </div>
+
+    {{#if editors}}
+        <div class="editors-grid">
+            {{#each editors}}
+                <a href="/editors/{{this.id}}" class="editor-card">
+                    <div class="editor-icon">🏢</div>
+                    <h3 class="editor-name">{{this.nom}}</h3>
+                    <div class="editor-stats">
+                        <span class="badge">{{this.games.length}} jeu(x)</span>
+                    </div>
+                    <div class="editor-card-actions">
+                        <a href="/editors/{{this.id}}/edit" class="btn-edit" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/editors/{{this.id}}/edit';">
+                            ✏️ Modifier
+                        </a>
+                    </div>
+                </a>
+            {{/each}}
+        </div>
+    {{else}}
+        <div class="empty-state">
+            <div class="empty-icon">📂</div>
+            <h2>Aucun éditeur</h2>
+            <p>Commencez par ajouter votre premier éditeur de jeux vidéo</p>
+            <a href="/editors/new" class="btn btn-primary">Créer un éditeur</a>
+        </div>
+    {{/if}}
+</div>
+
+<style>
+.container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h1 {
+    color: #00d4ff;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #0f0f1e;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #00ffff, #00d4ff);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+}
+
+.editors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.editor-card {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.editor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00d4ff, #0099cc);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.editor-card:hover {
+    border-color: #00d4ff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+}
+
+.editor-card:hover::before {
+    opacity: 1;
+}
+
+.editor-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.editor-card:hover .editor-icon {
+    transform: scale(1.1);
+}
+
+.editor-name {
+    color: #00d4ff;
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    font-weight: 600;
+}
+
+.editor-stats {
+    margin: 1rem 0;
+}
+
+.badge {
+    background: rgba(0, 212, 255, 0.2);
+    color: #00d4ff;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.editor-actions-preview {
+    margin-top: auto;
+    color: #00d4ff;
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.editor-card:hover .editor-actions-preview {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(26, 26, 46, 0.6);
+    border: 2px dashed rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    color: #00d4ff;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #b0b0b0;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .editors-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.editor-card-actions {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 212, 255, 0.2);
+    color: #00d4ff;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+    background: rgba(0, 212, 255, 0.3);
+    border-color: #00d4ff;
+    transform: scale(1.05);
+}
+</style>
