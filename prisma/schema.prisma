@@ -21,8 +21,8 @@ model Jeux{
   createdAt   DateTime @default(now())
   featured    Boolean @default(false)
   genres      JeuxGenres[]
-  editeurId   Int
-  editeur     Editeurs @relation(fields: [editeurId], references: [id])
+  editeurId   Int?
+  editeur     Editeurs? @relation(fields: [editeurId], references: [id])
 }
 
 

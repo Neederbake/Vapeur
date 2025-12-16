@@ -222,17 +222,17 @@ app.get("/types/:id", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des éditeurs          ( get /editors")
-   - La détail d'un genre           ( get /editors/new)
-   - La création d'un éditeur       ( post /editors)
-   - La détail d'un éditeur         ( get /editors/:id")
-   - La modification d'un éditeur   ( get /editors/:id/edit)
-   - La modification d'un éditeur   ( post /editors/:id/edit)
-   - La suppression d'un éditeur    ( post /editors/:id/delete
+   - La liste des éditeurs          ( get /editeurs")
+   - La détail d'un genre           ( get /editeurs/new)
+   - La création d'un éditeur       ( post /editeurs)
+   - La détail d'un éditeur         ( get /editeurs/:id")
+   - La modification d'un éditeur   ( get /editeurs/:id/edit)
+   - La modification d'un éditeur   ( post /editeurs/:id/edit)
+   - La suppression d'un éditeur    ( post /editeurs/:id/delete
 */
 
 // Liste des éditeurs
-app.get("/editors", async (req, res) => {
+app.get("/editeurs", async (req, res) => {
     try {
         const editors = await prisma.editeurs.findMany({
             include: { jeux_publies: true },
@@ -247,15 +247,15 @@ app.get("/editors", async (req, res) => {
 });
 
 // Formulaire création éditeur
-app.get("/editors/new", (req, res) => {
+app.get("/editeurs/new", (req, res) => {
     res.render("editeurs/new");
 });
 
 // Créer un éditeur
-app.post("/editors", async (req, res) => {
+app.post("/editeurs", async (req, res) => {
     try {
         await prisma.editeurs.create({ data: { nom: req.body.nom } });
-        res.redirect("/editors");
+        res.redirect("/editeurs");
     } catch (error) {
         console.error("Erreur création éditeur:", error);
         res.status(500).send("Erreur lors de la création");
@@ -263,7 +263,7 @@ app.post("/editors", async (req, res) => {
 });
 
 // Détail d'un éditeur
-app.get("/editors/:id", async (req, res) => {
+app.get("/editeurs/:id", async (req, res) => {
     try {
         const editor = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
@@ -279,7 +279,7 @@ app.get("/editors/:id", async (req, res) => {
 });
 
 // Formulaire modification éditeur
-app.get("/editors/:id/edit", async (req, res) => {
+app.get("/editeurs/:id/edit", async (req, res) => {
     try {
         const editor = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
@@ -294,14 +294,14 @@ app.get("/editors/:id/edit", async (req, res) => {
 });
 
 // Mettre à jour un éditeur
-app.post("/editors/:id/edit", async (req, res) => {
+app.post("/editeurs/:id/edit", async (req, res) => {
     try {
         await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
             data: { nom: req.body.nom },
         });
         
-        res.redirect(`/editors/${req.params.id}`);
+        res.redirect(`/editeurs/${req.params.id}`);
     } catch (error) {
         console.error("Erreur mise à jour éditeur:", error);
         res.status(500).send("Erreur lors de la mise à jour");
@@ -309,10 +309,10 @@ app.post("/editors/:id/edit", async (req, res) => {
 });
 
 // Supprimer un éditeur
-app.post("/editors/:id/delete", async (req, res) => {
+app.post("/editeurs/:id/delete", async (req, res) => {
     try {
         await prisma.editeurs.delete({ where: { id: parseInt(req.params.id) } });
-        res.redirect("/editors");
+        res.redirect("/editeurs");
     } catch (error) {
         console.error("Erreur suppression éditeur:", error);
         res.status(500).send("Erreur lors de la suppression");
