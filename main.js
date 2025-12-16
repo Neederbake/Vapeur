@@ -14,8 +14,9 @@ const PORT = 3008;
 ////////////////////////////////////////////////////////////////////////////// 
 
 
-app.use(express.static("public"));
 app.use(express.static(__dirname));
+app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "image")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuration Handlebars
@@ -35,7 +36,11 @@ app.get("/", async (req, res) => {
     try {
         const games = await prisma.game.findMany({
             where: { highlight: true },
+<<<<<<< Updated upstream
             include: { type: true, editor: true },
+=======
+            include: { editor: true },
+>>>>>>> Stashed changes
             orderBy: { title: 'asc' },
         });
         
@@ -69,7 +74,11 @@ app.get("/", async (req, res) => {
 app.get("/games", async (req, res) => {
     try {
         const games = await prisma.game.findMany({
+<<<<<<< Updated upstream
             include: { type: true, editor: true },
+=======
+            include: { editor: true },
+>>>>>>> Stashed changes
             orderBy: { title: 'asc' },
         });
         
@@ -116,13 +125,20 @@ app.get("/games/new", async (req, res) => {
 // Créer un jeu
 app.post("/games", async (req, res) => {
     try {
+<<<<<<< Updated upstream
         const { title, description, released, typeId, editorId, highlight } = req.body;
+=======
+        const { title, description, typeId, editorId, highlight } = req.body;
+>>>>>>> Stashed changes
         
         await prisma.game.create({
             data: {
                 title,
                 description: description || "",
+<<<<<<< Updated upstream
                 released: released ? new Date(released) : new Date(),
+=======
+>>>>>>> Stashed changes
                 typeId: typeId ? parseInt(typeId) : null,
                 editorId: editorId ? parseInt(editorId) : null,
                 highlight: highlight === "on",
@@ -141,7 +157,11 @@ app.get("/games/:id", async (req, res) => {
     try {
         const game = await prisma.game.findUnique({
             where: { id: parseInt(req.params.id) },
+<<<<<<< Updated upstream
             include: { type: true, editor: true },
+=======
+            include: { editor: true },
+>>>>>>> Stashed changes
         });
         
         if (!game) return res.status(404).send("Jeu non trouvé");
@@ -157,7 +177,11 @@ app.get("/games/:id/edit", async (req, res) => {
     try {
         const game = await prisma.game.findUnique({
             where: { id: parseInt(req.params.id) },
+<<<<<<< Updated upstream
             include: { type: true, editor: true },
+=======
+            include: { editor: true },
+>>>>>>> Stashed changes
         });
         
         if (!game) return res.status(404).send("Jeu non trouvé");
@@ -175,14 +199,21 @@ app.get("/games/:id/edit", async (req, res) => {
 // Mettre à jour un jeu
 app.post("/games/:id/edit", async (req, res) => {
     try {
+<<<<<<< Updated upstream
         const { title, description, released, typeId, editorId, highlight } = req.body;
+=======
+        const { title, description, typeId, editorId, highlight } = req.body;
+>>>>>>> Stashed changes
         
         await prisma.game.update({
             where: { id: parseInt(req.params.id) },
             data: {
                 title,
                 description: description || "",
+<<<<<<< Updated upstream
                 released: released ? new Date(released) : new Date(),
+=======
+>>>>>>> Stashed changes
                 typeId: typeId ? parseInt(typeId) : null,
                 editorId: editorId ? parseInt(editorId) : null,
                 highlight: highlight === "on",
@@ -233,7 +264,11 @@ app.get("/types/:id", async (req, res) => {
     try {
         const type = await prisma.type.findUnique({
             where: { id: parseInt(req.params.id) },
+<<<<<<< Updated upstream
             include: { games: { include: { editor: true }, orderBy: { title: 'asc' } } },
+=======
+            include: { games: { orderBy: { title: 'asc' } } },
+>>>>>>> Stashed changes
         });
         
         if (!type) return res.status(404).send("Genre non trouvé");
@@ -284,7 +319,11 @@ app.get("/editors/:id", async (req, res) => {
     try {
         const editor = await prisma.editor.findUnique({
             where: { id: parseInt(req.params.id) },
+<<<<<<< Updated upstream
             include: { games: { include: { type: true }, orderBy: { title: 'asc' } } },
+=======
+            include: { games: { orderBy: { title: 'asc' } } },
+>>>>>>> Stashed changes
         });
         
         if (!editor) return res.status(404).send("Éditeur non trouvé");

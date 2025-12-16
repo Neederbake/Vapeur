@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< Updated upstream
 model Game {
   id          Int      @id @default(autoincrement())
   title       String                 // Le titre
@@ -29,6 +30,26 @@ model Game {
   createdAt   DateTime @default(now())              // Date de création de la fiche
   updatedAt   DateTime @updatedAt                   // Mise à jour automatique
 
+=======
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  released    DateTime @default(now())
+  coverUrl    String?
+  typeId      Int?
+  editorId    Int?
+  highlight   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  type        Type?     @relation(fields: [typeId], references: [id])
+  editor      Editor?   @relation(fields: [editorId], references: [id])
+  gameTypes   GameType[]
+  gameEditors GameEditor[]
+
+>>>>>>> Stashed changes
   @@index([title])
   @@index([released])
 }
@@ -36,17 +57,27 @@ model Game {
 model Type {
   id        Int      @id @default(autoincrement())
   name      String   @unique
+<<<<<<< Updated upstream
   games     Game[]   @relation("PrimaryType") // Jeux associés à ce genre (principal)
   gameLinks GameType[] @relation("SecondaryTypes")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+=======
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  games     Game[]
+  gameTypes GameType[]
+
+>>>>>>> Stashed changes
   @@index([name])
 }
 
 model Editor {
   id        Int      @id @default(autoincrement())
   name      String   @unique
+<<<<<<< Updated upstream
   games     Game[]   @relation("PrimaryEditor") // Jeux associés à cet éditeur (principal)
   gameLinks GameEditor[] @relation("CoEditors")
   createdAt DateTime @default(now())
@@ -56,18 +87,35 @@ model Editor {
 }
 
 // Table de liaison pour gérer plusieurs genres par jeu
+=======
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  games       Game[]
+  gameEditors GameEditor[]
+
+  @@index([name])
+}
+
+>>>>>>> Stashed changes
 model GameType {
   gameId     Int
   typeId     Int
   assignedAt DateTime @default(now())
 
+<<<<<<< Updated upstream
   game Game @relation("SecondaryTypes", fields: [gameId], references: [id], onDelete: Cascade)
   type Type @relation("SecondaryTypes", fields: [typeId], references: [id], onDelete: Cascade)
+=======
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  type Type @relation(fields: [typeId], references: [id], onDelete: Cascade)
+>>>>>>> Stashed changes
 
   @@id([gameId, typeId])
   @@index([typeId])
 }
 
+<<<<<<< Updated upstream
 // Table de liaison pour gérer plusieurs éditeurs par jeu
 model GameEditor {
   gameId     Int
@@ -77,6 +125,16 @@ model GameEditor {
 
   game   Game   @relation("CoEditors", fields: [gameId], references: [id], onDelete: Cascade)
   editor Editor @relation("CoEditors", fields: [editorId], references: [id], onDelete: Cascade)
+=======
+model GameEditor {
+  gameId     Int
+  editorId   Int
+  role       String?
+  assignedAt DateTime @default(now())
+
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  editor Editor @relation(fields: [editorId], references: [id], onDelete: Cascade)
+>>>>>>> Stashed changes
 
   @@id([gameId, editorId])
   @@index([editorId])
