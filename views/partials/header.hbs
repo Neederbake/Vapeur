@@ -1,0 +1,33 @@
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="Vapeur" class="logo-img">
+            </a>
+        </div>
+        
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/games" class="nav-link">Jeux</a></li>
+                <li><a href="/types" class="nav-link">Genres</a></li>
+                <li><a href="/editors" class="nav-link">Éditeurs</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-box">
+            <form action="/search" method="GET" class="search-form">
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="search-input" 
+                    placeholder="Rechercher un jeu..."
+                    required
+                >
+                <button type="submit" class="search-btn">
+                    <span>🔍</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
