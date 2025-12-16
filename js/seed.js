@@ -24,14 +24,14 @@ const types = [
 
 // Fonction pour initialiser les genres au démarrage
 async function initializeGameTypes(prisma) {
-    for (const genre of types) {
-        await prisma.type.upsert({
-            where: { name: genre },
+    for (const Genres of types) {
+        await prisma.genres.upsert({
+            where: { nom: Genres },
             update: {},
-            create: { name: genre },
+            create: { nom: Genres },
         });
     }
-    console.log("✓ Genres de jeux initialisés");
+    console.log("Genres de jeux initialisés");
 }
 
 // Exporter les genres et la fonction d'initialisation

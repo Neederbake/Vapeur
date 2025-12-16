@@ -32,10 +32,10 @@ hbs.registerPartials(path.join(__dirname, "views", "partials"));
 // Page d'accueil - Jeux mis en avant
 app.get("/", async (req, res) => {
     try {
-        const games = await prisma.game.findMany({
-            where: { highlight: true },
-            include: { type: true, editor: true },
-            orderBy: { title: 'asc' },
+        const games = await prisma.jeux.findMany({
+            where: { hilighted: true },
+            include: { editeur: true },
+            orderBy: { nom: 'asc' },
         });
         
         const gamesHTML = games.length > 0
@@ -67,9 +67,9 @@ app.get("/", async (req, res) => {
 // Liste de tous les jeux
 app.get("/games", async (req, res) => {
     try {
-        const games = await prisma.game.findMany({
-            include: { type: true, editor: true },
-            orderBy: { title: 'asc' },
+        const games = await prisma.jeux.findMany({
+            include: { editeur: true },
+            orderBy: { nom: 'asc' },
         });
         
         const gamesHTML = games.length > 0
@@ -102,8 +102,8 @@ app.get("/games", async (req, res) => {
 // Formulaire création jeu
 app.get("/games/new", async (req, res) => {
     try {
-        const types = await prisma.type.findMany({ orderBy: { name: 'asc' } });
-        const editors = await prisma.editor.findMany({ orderBy: { name: 'asc' } });
+        const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
+        const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
         res.render("games/new", { types, editors });
     } catch (error) {
@@ -115,16 +115,15 @@ app.get("/games/new", async (req, res) => {
 // Créer un jeu
 app.post("/games", async (req, res) => {
     try {
-        const { title, description, released, typeId, editorId, highlight } = req.body;
+        const { nom, description, genreId, editeurId, hilighted } = req.body;
         
-        await prisma.game.create({
+        await prisma.jeux.create({
             data: {
-                title,
+                nom,
                 description: description || "",
-                released: released ? new Date(released) : new Date(),
-                typeId: typeId ? parseInt(typeId) : null,
-                editorId: editorId ? parseInt(editorId) : null,
-                highlight: highlight === "on",
+                genre: genreId || "",
+                editeurId: editeurId ? parseInt(editeurId) : null,
+                hilighted: hilighted === "on",
             },
         });
         
@@ -138,9 +137,9 @@ app.post("/games", async (req, res) => {
 // Détail d'un jeu
 app.get("/games/:id", async (req, res) => {
     try {
-        const game = await prisma.game.findUnique({
+        const game = await prisma.jeux.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { type: true, editor: true },
+            include: { editeur: true },
         });
         
         if (!game) return res.status(404).send("Jeu non trouvé");
@@ -154,15 +153,15 @@ app.get("/games/:id", async (req, res) => {
 // Formulaire modification jeu
 app.get("/games/:id/edit", async (req, res) => {
     try {
-        const game = await prisma.game.findUnique({
+        const game = await prisma.jeux.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { type: true, editor: true },
+            include: { editeur: true },
         });
         
         if (!game) return res.status(404).send("Jeu non trouvé");
         
-        const types = await prisma.type.findMany({ orderBy: { name: 'asc' } });
-        const editors = await prisma.editor.findMany({ orderBy: { name: 'asc' } });
+        const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
+        const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
         res.render("games/edit", { game, types, editors });
     } catch (error) {
@@ -174,17 +173,16 @@ app.get("/games/:id/edit", async (req, res) => {
 // Mettre à jour un jeu
 app.post("/games/:id/edit", async (req, res) => {
     try {
-        const { title, description, released, typeId, editorId, highlight } = req.body;
+        const { nom, description, genreId, editeurId, hilighted } = req.body;
         
-        await prisma.game.update({
+        await prisma.jeux.update({
             where: { id: parseInt(req.params.id) },
             data: {
-                title,
+                nom,
                 description: description || "",
-                released: released ? new Date(released) : new Date(),
-                typeId: typeId ? parseInt(typeId) : null,
-                editorId: editorId ? parseInt(editorId) : null,
-                highlight: highlight === "on",
+                genre: genreId || "",
+                editeurId: editeurId ? parseInt(editeurId) : null,
+                hilighted: hilighted === "on",
             },
         });
         
@@ -198,7 +196,7 @@ app.post("/games/:id/edit", async (req, res) => {
 // Supprimer un jeu
 app.post("/games/:id/delete", async (req, res) => {
     try {
-        await prisma.game.delete({ where: { id: parseInt(req.params.id) } });
+        await prisma.jeux.delete({ where: { id: parseInt(req.params.id) } });
         res.redirect("/games");
     } catch (error) {
         console.error("Erreur suppression jeu:", error);
@@ -214,9 +212,9 @@ app.post("/games/:id/delete", async (req, res) => {
 // Liste des genres
 app.get("/types", async (req, res) => {
     try {
-        const types = await prisma.type.findMany({
-            include: { games: true },
-            orderBy: { name: 'asc' },
+        const types = await prisma.genres.findMany({
+            include: { jeux: true },
+            orderBy: { nom: 'asc' },
         });
 
        
@@ -230,9 +228,9 @@ app.get("/types", async (req, res) => {
 // Détail d'un genre
 app.get("/types/:id", async (req, res) => {
     try {
-        const type = await prisma.type.findUnique({
+        const type = await prisma.genres.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { games: { include: { editor: true }, orderBy: { title: 'asc' } } },
+            include: { jeux: { orderBy: { nom: 'asc' } } },
         });
         
         if (!type) return res.status(404).send("Genre non trouvé");
@@ -250,9 +248,9 @@ app.get("/types/:id", async (req, res) => {
 // Liste des éditeurs
 app.get("/editors", async (req, res) => {
     try {
-        const editors = await prisma.editor.findMany({
-            include: { games: true },
-            orderBy: { name: 'asc' },
+        const editors = await prisma.editeurs.findMany({
+            include: { jeux_publies: true },
+            orderBy: { nom: 'asc' },
         });
         
         res.render("editors/index", { editors });
@@ -270,7 +268,7 @@ app.get("/editors/new", (req, res) => {
 // Créer un éditeur
 app.post("/editors", async (req, res) => {
     try {
-        await prisma.editor.create({ data: { name: req.body.name } });
+        await prisma.editeurs.create({ data: { nom: req.body.nom } });
         res.redirect("/editors");
     } catch (error) {
         console.error("Erreur création éditeur:", error);
@@ -281,9 +279,9 @@ app.post("/editors", async (req, res) => {
 // Détail d'un éditeur
 app.get("/editors/:id", async (req, res) => {
     try {
-        const editor = await prisma.editor.findUnique({
+        const editor = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { games: { include: { type: true }, orderBy: { title: 'asc' } } },
+            include: { jeux_publies: { orderBy: { nom: 'asc' } } },
         });
         
         if (!editor) return res.status(404).send("Éditeur non trouvé");
@@ -297,7 +295,7 @@ app.get("/editors/:id", async (req, res) => {
 // Formulaire modification éditeur
 app.get("/editors/:id/edit", async (req, res) => {
     try {
-        const editor = await prisma.editor.findUnique({
+        const editor = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
         });
         
@@ -312,9 +310,9 @@ app.get("/editors/:id/edit", async (req, res) => {
 // Mettre à jour un éditeur
 app.post("/editors/:id/edit", async (req, res) => {
     try {
-        await prisma.editor.update({
+        await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
-            data: { name: req.body.name },
+            data: { nom: req.body.nom },
         });
         
         res.redirect(`/editors/${req.params.id}`);
@@ -327,7 +325,7 @@ app.post("/editors/:id/edit", async (req, res) => {
 // Supprimer un éditeur
 app.post("/editors/:id/delete", async (req, res) => {
     try {
-        await prisma.editor.delete({ where: { id: parseInt(req.params.id) } });
+        await prisma.editeurs.delete({ where: { id: parseInt(req.params.id) } });
         res.redirect("/editors");
     } catch (error) {
         console.error("Erreur suppression éditeur:", error);

@@ -13,71 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Game {
+
+model Jeux{
   id          Int      @id @default(autoincrement())
-  title       String                 // Le titre
-  description String   @default("") // La description
-  released    DateTime @default(now()) // Date de sortie
-  coverUrl    String?                // Visuel ou logo
-  typeId      Int?                                  // ID du genre
-  type        Type?    @relation("PrimaryType", fields: [typeId], references: [id], onDelete: SetNull) // Genre principal
-  typeLinks   GameType[] @relation("SecondaryTypes") // Types secondaires (N-N)
-  editorId    Int?                                  // ID de l'éditeur
-  editor      Editor?  @relation("PrimaryEditor", fields: [editorId], references: [id], onDelete: SetNull) // Éditeur principal
-  editorLinks GameEditor[] @relation("CoEditors")   // Co-éditeurs (N-N)
-  highlight   Boolean  @default(false)              // Mis en avant
-  createdAt   DateTime @default(now())              // Date de création de la fiche
-  updatedAt   DateTime @updatedAt                   // Mise à jour automatique
+  nom         String
+  description String
+  genre       String
+  createdAt   DateTime @default(now())
+  editor      String @default("")
+  hilighted   Boolean @default(false)
 
-  @@index([title])
-  @@index([released])
+  editeur     Editeurs?  @relation(fields: [editeurId], references: [id])
+  editeurId   Int?   
+  genres      JeuxGenres[]
 }
 
-model Type {
+
+model Genres{
   id        Int      @id @default(autoincrement())
-  name      String   @unique
-  games     Game[]   @relation("PrimaryType") // Jeux associés à ce genre (principal)
-  gameLinks GameType[] @relation("SecondaryTypes")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  nom       String   @unique
 
-  @@index([name])
+  jeux  JeuxGenres[]
 }
 
-model Editor {
+
+model JeuxGenres {
+  jeu     Jeux @relation(fields: [jeuId], references: [id], onDelete: Cascade)
+  jeuId   Int
+
+  genre   Genres    @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  genreId Int
+
+  @@id    ([jeuId, genreId])
+}
+
+
+model Editeurs{
   id        Int      @id @default(autoincrement())
-  name      String   @unique
-  games     Game[]   @relation("PrimaryEditor") // Jeux associés à cet éditeur (principal)
-  gameLinks GameEditor[] @relation("CoEditors")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  nom       String
 
-  @@index([name])
-}
-
-// Table de liaison pour gérer plusieurs genres par jeu
-model GameType {
-  gameId     Int
-  typeId     Int
-  assignedAt DateTime @default(now())
-
-  game Game @relation("SecondaryTypes", fields: [gameId], references: [id], onDelete: Cascade)
-  type Type @relation("SecondaryTypes", fields: [typeId], references: [id], onDelete: Cascade)
-
-  @@id([gameId, typeId])
-  @@index([typeId])
-}
-
-// Table de liaison pour gérer plusieurs éditeurs par jeu
-model GameEditor {
-  gameId     Int
-  editorId   Int
-  role       String? // Ex: portage, co-édition, distribution
-  assignedAt DateTime @default(now())
-
-  game   Game   @relation("CoEditors", fields: [gameId], references: [id], onDelete: Cascade)
-  editor Editor @relation("CoEditors", fields: [editorId], references: [id], onDelete: Cascade)
-
-  @@id([gameId, editorId])
-  @@index([editorId])
+  jeux_publies Jeux[]
 }
