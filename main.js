@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const bodyParser = require("body-parser");
@@ -33,7 +35,7 @@ hbs.registerPartials(path.join(__dirname, "views", "partials"));
 app.get("/", async (req, res) => {
     try {
         const games = await prisma.jeux.findMany({
-            where: { hilighted: true },
+            where: { hilighted: true }, // ceux qui sont en avant
             include: { editeur: true },
             orderBy: { nom: 'asc' },
         });
@@ -51,19 +53,20 @@ app.get("/", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des jeux ( get /games)
-   - La création d'un jeu ( get /games/new)
-   - La création d'un jeu ( post /games)
-   - Le détail d'un jeu ( get /games/:id)
-   - La modification d'un jeu ( get /games/:id/edit)
-   - La modification d'un jeu ( post /games/:id/edit)
-   - La suppression d'un jeu ( post /games/:id/delete)
+   - La liste des jeux          ( get /games)
+   - La création d'un jeu       ( get /games/new)
+   - La création d'un jeu       ( post /games)
+   - Le détail d'un jeu         ( get /games/:id)
+   - La modification d'un jeu   ( get /games/:id/edit)
+   - La modification d'un jeu   ( post /games/:id/edit)
+   - La suppression d'un jeu    ( post /games/:id/delete)
 */
 
 // Liste de tous les jeux
 app.get("/games", async (req, res) => {
     try {
         const games = await prisma.jeux.findMany({
+            //////// Cette ligne est potentiellement à enlever
             include: { editeur: true },
             orderBy: { nom: 'asc' },
         });
@@ -194,8 +197,8 @@ app.post("/games/:id/delete", async (req, result) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des genres ( get /types)
-   - La détail d'un genre ( get /types/:id")
+   - La liste des genres    ( get /types)
+   - La détail d'un genre   ( get /types/:id")
 */
 
 // Liste des genres
@@ -235,13 +238,13 @@ app.get("/types/:id", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des éditeurs ( get /editors")
-   - La détail d'un genre ( get /editors/new)
-   - La création d'un éditeur ( post /editors)
-   - La détail d'un éditeur ( get /editors/:id")
-   - La modification d'un éditeur ( get /editors/:id/edit)
-   - La modification d'un éditeur ( post /editors/:id/edit)
-   - La suppression d'un éditeur ( post /editors/:id/delete
+   - La liste des éditeurs          ( get /editors")
+   - La détail d'un genre           ( get /editors/new)
+   - La création d'un éditeur       ( post /editors)
+   - La détail d'un éditeur         ( get /editors/:id")
+   - La modification d'un éditeur   ( get /editors/:id/edit)
+   - La modification d'un éditeur   ( post /editors/:id/edit)
+   - La suppression d'un éditeur    ( post /editors/:id/delete
 */
 
 // Liste des éditeurs
