@@ -4,17 +4,9 @@
   - Jeux
   - CSS
   - README
-  - et surement d'autres trucs on verra
   - ah oui, index.hbs -> footer
   - ajouter des images ( logo )
-  - dans le public les images
-  - et on verra
-  - j'adore mettre des trucs inutiles
-  - le partial !!! le footer pardon
-  - les courses -> poireaux , tomates , huile , tomates
-  - oups je radote
   - README
-  - oups je radote
 
 # readme fait par ia, à changer
 # 🎮 Vapeur

@@ -7,12 +7,9 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = 3008;
 
-
 //////////////////////////////////////////////////////////////////////////////
 //////////////////// MIDDLEWARE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
-
-
 
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,11 +20,9 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
-
 //////////////////////////////////////////////////////////////////////////////
 ////////////////// ROUTES ACCUEIL ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
-
 
 // Page d'accueil - Jeux mis en avant
 app.get("/", async (req, res) => {
@@ -45,7 +40,6 @@ app.get("/", async (req, res) => {
     }
 });
 
-
 //////////////////////////////////////////////////////////////////////////////
 //////////////////// ROUTES JEUX /////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
@@ -61,7 +55,7 @@ app.get("/", async (req, res) => {
 */
 
 // Liste de tous les jeux
-app.get("/games", async (req, res) => {
+app.get("/jeux", async (req, res) => {
     try {
         const games = await prisma.jeux.findMany({
             include: { editeur: true },
@@ -76,7 +70,7 @@ app.get("/games", async (req, res) => {
 });
 
 // Formulaire création jeu
-app.get("/games/new", async (req, res) => {
+app.get("/jeux/new", async (req, res) => {
     try {
         const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
         const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
@@ -89,7 +83,7 @@ app.get("/games/new", async (req, res) => {
 });
 
 // Créer un jeu
-app.post("/games", async (req, res) => {
+app.post("/jeux", async (req, res) => {
     try {
         const { titre, description, genre, editeurId, featured } = req.body;
         
@@ -103,7 +97,7 @@ app.post("/games", async (req, res) => {
             },
         });
         
-        res.redirect("/games");
+        res.redirect("/jeux");
     } catch (error) {
         console.error("Erreur création jeu:", error);
         res.status(500).send("Erreur lors de la création");
@@ -111,7 +105,7 @@ app.post("/games", async (req, res) => {
 });
 
 // Détail d'un jeu
-app.get("/games/:id", async (req, res) => {
+app.get("/jeux/:id", async (req, res) => {
     try {
         const game = await prisma.jeux.findUnique({
             where: { id: parseInt(req.params.id) },
@@ -127,7 +121,7 @@ app.get("/games/:id", async (req, res) => {
 });
 
 // Formulaire modification jeu
-app.get("/games/:id/edit", async (req, res) => {
+app.get("/jeux/:id/edit", async (req, res) => {
     try {
         const game = await prisma.jeux.findUnique({
             where: { id: parseInt(req.params.id) },
@@ -147,7 +141,7 @@ app.get("/games/:id/edit", async (req, res) => {
 });
 
 // Mettre à jour un jeu
-app.post("/games/:id/edit", async (req, res) => {
+app.post("/jeux/:id/edit", async (req, res) => {
     try {
         const { titre, description, genre, editeurId, featured } = req.body;
 
@@ -161,7 +155,7 @@ app.post("/games/:id/edit", async (req, res) => {
                 featured: featured === "on",
             },
         });
-        res.redirect(`/games/${req.params.id}`);
+        res.redirect(`/jeux/${req.params.id}`);
     } 
     catch (error) {
         console.error("Erreur mise à jour jeu : ", error);
@@ -171,10 +165,10 @@ app.post("/games/:id/edit", async (req, res) => {
 
 // Validé
 // Post pour supprimer un jeu 
-app.post("/games/:id/delete", async (req, res) => {
+app.post("/jeux/:id/delete", async (req, res) => {
     try {
         await prisma.jeux.delete({ where: { id: parseInt(req.params.id) } });
-        res.redirect("/games");
+        res.redirect("/jeux");
     } 
     catch (error) {
         console.error("Erreur suppression de jeu : ", error);
@@ -323,6 +317,18 @@ app.post("/editors/:id/delete", async (req, res) => {
         console.error("Erreur suppression éditeur:", error);
         res.status(500).send("Erreur lors de la suppression");
     }
+});
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////// GESTION Des ERREURS /////////////////////////////
+////////////////////////////////////////////////////////////////////////////// 
+
+// Middleware 404 - Capture toutes les routes non définies
+
+app.use((req, res) => {
+    res.status(404).render("errors/404", {
+        url: req.originalUrl
+    });
 });
 
 //////////////////////////////////////////////////////////////////////////////
