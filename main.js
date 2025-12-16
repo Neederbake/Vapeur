@@ -14,7 +14,7 @@ const PORT = 3008;
 ////////////////////////////////////////////////////////////////////////////// 
 
 
-app.use(express.static("public"));
+
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -64,6 +64,15 @@ app.get("/", async (req, res) => {
 //////////////////// ROUTES JEUX /////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
 
+/* Petit récap rapide, ça fait toujours plaisir :
+   - La liste des jeux ( get /games)
+   - La création d'un jeu ( get /games/new)
+   - La création d'un jeu ( post /games)
+   - Le détail d'un jeu ( get /games/:id)
+   - La modification d'un jeu ( get /games/:id/edit)
+   - La modification d'un jeu ( post /games/:id/edit)
+   
+*/
 
 // Liste de tous les jeux
 app.get("/games", async (req, res) => {
@@ -174,34 +183,43 @@ app.get("/games/:id/edit", async (req, res) => {
 // Mettre à jour un jeu
 app.post("/games/:id/edit", async (req, res) => {
     try {
-        const { nom, description, genreId, editeurId, hilighted } = req.body;
-        
+        // à bidouiller mais en gros ça devrais être bon
+        const { nom, description, genre, createAt, editor, hilighted } = req.body;
+        const jeuId = parseInt(request.params.id);
+
         await prisma.jeux.update({
             where: { id: parseInt(req.params.id) },
             data: {
+                // On complète par les variables ou autre chose
                 nom,
                 description: description || "",
-                genre: genreId || "",
-                editeurId: editeurId ? parseInt(editeurId) : null,
+                genre: genre || "",
+                createdAt : createAt || null, // Je savais pas si y a autre chose que null
+                editor: editor || "",
                 hilighted: hilighted === "on",
             },
         });
-        
         res.redirect(`/games/${req.params.id}`);
-    } catch (error) {
-        console.error("Erreur mise à jour jeu:", error);
+    } 
+    // Toujours au cas ou, on verifie les erreurs
+    catch (error) {
+        console.error("Erreur mise à jour gu jeu : ", error);
         res.status(500).send("Erreur lors de la mise à jour");
     }
 });
 
-// Supprimer un jeu
-app.post("/games/:id/delete", async (req, res) => {
+// Validé
+// Post pour supprimer un jeu 
+app.post("/games/:id/delete", async (req, result) => {
     try {
+        //On essaie de supprimer le jeux ou l'ID est id
         await prisma.jeux.delete({ where: { id: parseInt(req.params.id) } });
-        res.redirect("/games");
-    } catch (error) {
-        console.error("Erreur suppression jeu:", error);
-        res.status(500).send("Erreur lors de la suppression");
+        result.redirect("/games");
+    } 
+    // Voila voila, l'erreur
+    catch (error) {
+        console.error("Erreur suppression de jeu : ", error);
+        result.status(500).send("Erreur lors de la suppression");
     }
 });
 
