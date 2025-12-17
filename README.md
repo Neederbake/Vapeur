@@ -7,7 +7,7 @@
   - ah oui, index.hbs -> footer
   - ajouter des images ( logo )
   - README
-
+  - submit a enlever
 # readme fait par ia, à changer
 # 🎮 Vapeur
 
