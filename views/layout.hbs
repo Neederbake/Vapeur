@@ -8,10 +8,13 @@
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
+        {{!-- {{> header }} : C'est un "partial". Ça insère le contenu du fichier views/partials/header.hbs ici. --}}
         {{> header }}
         <main>
+            {{!-- {{{ body }}} : C'est ici que le contenu spécifique de chaque page (index.hbs, jeux/details.hbs, etc.) sera injecté. --}}
             {{{ body }}}
         </main>
+        {{!-- {{> footer }} : Insère le pied de page commun à toutes les pages. --}}
         {{> footer }}
     </body>
 </html>

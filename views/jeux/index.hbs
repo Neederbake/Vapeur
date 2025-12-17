@@ -5,7 +5,9 @@
     </div>
 
     <div class="cards">
+        {{!-- Boucle sur tous les jeux passés par le contrôleur --}}
         {{#each games}}
+            {{!-- Ajoute la classe 'card-featured' si la propriété 'featured' est vraie --}}
             <div class="card {{#if this.featured}}card-featured{{/if}}">
                 <a href="/jeux/{{this.id}}" class="card-link" aria-label="Voir les détails de {{this.titre}}"></a>
                 <div class="card-header flex-row-center relative-z2">
@@ -35,6 +37,7 @@
                 <p class="flex-1">{{this.description}}</p>
             </div>
         {{else}}
+            {{!-- Ce bloc s'affiche si la liste 'games' est vide --}}
             <div class="empty-state">
                 <p>Aucun jeu trouvé.</p>
             </div>

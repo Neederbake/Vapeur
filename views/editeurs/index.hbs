@@ -3,7 +3,7 @@
     {{!-- En-tête avec titre centré et bouton d'ajout --}}
     <div class="page-header editeurs-header">
         <h1 class="editeurs-title">Éditeurs</h1>
-        <a href="/editeurs/new" class="btn btn-primary add-editor">➕ Nouvel éditeur</a>
+        <a href="/editeurs/new" class="btn btn-primary add-editor">Nouvel éditeur</a>
     </div>
 
     {{#if editeurs}}
@@ -13,7 +13,7 @@
                 <a href="/editeurs/{{this.id}}" class="card">
                     <h3 class="name">{{this.nom}}</h3>
                     <div class="meta">
-                        {{!-- Compteur de jeux publiés --}}
+                        {{!-- .length : Propriété JavaScript pour avoir la taille de la liste (nombre de jeux) --}}
                         <span class="count">{{this.jeux_publies.length}} jeu(x) publié(s)</span>
                     </div>
                 </a>

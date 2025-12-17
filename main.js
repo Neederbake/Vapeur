@@ -20,6 +20,8 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
+// HELPERS: Ce sont des fonctions utilisables directement dans le HTML (.hbs).
+// Ex: {{formatDate maDate}} transformera la date brute en format lisible.
 hbs.registerHelper('formatDate', function(date) {
     if (!date) return '';
     const d = new Date(date);
@@ -40,8 +42,11 @@ hbs.registerHelper('displayDate', function(date) {
 ////////////////////////////////////////////////////////////////////////////// 
 
 // Page d'accueil - Jeux mis en avant
+// ASYNC: Signifie que cette fonction contient des opérations longues (comme interroger la BDD).
 app.get("/", async (req, res) => {
     try {
+        // AWAIT: "Attends ici que la base de données réponde avant de continuer".
+        // Sans await, le code continuerait sans avoir reçu la liste des jeux.
         const games = await prisma.jeux.findMany({
             where: { featured: true },
             include: { 
@@ -51,9 +56,13 @@ app.get("/", async (req, res) => {
             orderBy: { titre: 'asc' },
         });
         
+        // RENDER: Fabrique la page HTML à partir du fichier "index.hbs" et des données "games".
+        // Contrairement à res.send() qui envoie du texte brut, render construit une jolie page.
         res.render("index", { games, hasGames: games.length > 0 });
     } catch (error) {
         console.error("Erreur accueil:", error);
+        // STATUS: Code HTTP pour dire au navigateur comment ça s'est passé.
+        // 200 = Tout va bien (défaut), 500 = Erreur interne du serveur (problème technique).
         res.status(500).send("Erreur serveur");
     }
 });
@@ -109,7 +118,10 @@ app.post("/jeux", async (req, res) => {
         const { titre, description, genreId, editeurId, featured, dateSortie } = req.body;
 
         // Validation des longueurs
+        // TRIM: Nettoie le texte en enlevant les espaces au début et à la fin.
+        // "  Zelda  " devient "Zelda". Ça évite d'enregistrer des noms vides composés juste d'espaces.
         if (!titre || titre.trim().length === 0) {
+            // STATUS 400: "Bad Request". Signifie que c'est la faute de l'utilisateur (données invalides).
             return res.status(400).send("Le titre est requis");
         }
         if (titre.length > 200) {
@@ -449,7 +461,7 @@ const { initializeGameGenres } = require('./js/seed');
 initializeGameGenres(prisma)
     .then(() => {
         app.listen(PORT, () => {
-            console.log(`✓ Serveur lancé sur http://localhost:${PORT}`);
+            console.log(`Serveur lancé sur http://localhost:${PORT}`);
         });
     })
     .catch((error) => {

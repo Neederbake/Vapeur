@@ -6,6 +6,7 @@
     <form action="/editeurs/{{editeur.id}}/edit" method="POST" class="form-card">
         <div class="form-group">
             <label for="nom">Nom de l'éditeur * (max 150 caractères)</label>
+            {{!-- value="{{editeur.nom}}" : Affiche le nom actuel dans le champ pour qu'on puisse le modifier --}}
             <input 
                 type="text" 
                 id="nom" 

@@ -4,10 +4,10 @@
 	<div class="page-header">
 		<h1>{{editeur.nom}}</h1>
 		<div class="actions">
-			<a href="/editeurs/{{editeur.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
+			<a href="/editeurs/{{editeur.id}}/edit" class="btn btn-secondary">Modifier</a>
 			{{!-- Formulaire de suppression avec confirmation --}}
 			<form action="/editeurs/{{editeur.id}}/delete" method="POST" class="inline-form" onsubmit="return confirm('Supprimer cet éditeur ?');">
-				<button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
+				<button type="submit" class="btn btn-danger">Supprimer</button>
 			</form>
 		</div>
 	</div>
@@ -16,6 +16,7 @@
 		<h2>Jeux publiés</h2>
 		{{!-- Liste des jeux, chaque titre est cliquable pour voir le détail du jeu --}}
 		<ul class="simple-list">
+			{{!-- Boucle sur la liste des jeux publiés par cet éditeur --}}
 			{{#each editeur.jeux_publies}}
 				<li><a href="/jeux/{{this.id}}" class="list-link">{{this.titre}}</a></li>
 			{{/each}}

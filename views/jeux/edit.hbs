@@ -2,9 +2,11 @@
     <h1>Modifier le jeu : {{game.titre}}</h1>
 
     <div class="form-card">
+        {{!-- Formulaire d'édition. L'action pointe vers la route de mise à jour (POST /jeux/:id/edit) --}}
         <form action="/jeux/{{game.id}}/edit" method="POST">
             <div class="form-group">
                 <label for="titre">Titre (max 200 caractères)</label>
+                {{!-- value="{{game.titre}}" : Pré-remplit le champ avec la valeur actuelle du jeu --}}
                 <input type="text" name="titre" id="titre" value="{{game.titre}}" class="form-input" maxlength="200" required>
             </div>
 
@@ -16,11 +18,13 @@
             <div class="form-group">
                 <label for="genre">Genre</label>
                 <select name="genreId" id="genre" class="form-input">
+                    {{!-- Gestion de la sélection actuelle --}}
                     {{#if game.genres}}
                         <option value="{{game.genres.id}}" selected>{{game.genres.nom}}</option>
                     {{else}}
                         <option value="">Sélectionner un genre</option>
                     {{/if}}
+                    {{!-- Liste de tous les genres disponibles --}}
                     {{#each genres}}
                         <option value="{{this.id}}">{{this.nom}}</option>
                     {{/each}}
@@ -43,10 +47,12 @@
 
             <div class="form-group">
                 <label for="dateSortie">Date de sortie</label>
+                {{!-- Utilise le helper formatDate pour que l'input type="date" comprenne la valeur --}}
                 <input type="date" name="dateSortie" id="dateSortie" value="{{formatDate game.dateSortie}}" class="form-input">
             </div>
 
             <div class="form-group flex-row-center">
+                {{!-- Ajoute l'attribut 'checked' si le jeu est déjà mis en avant --}}
                 <input type="checkbox" name="featured" id="featured" {{#if game.featured}}checked{{/if}}>
                 <label for="featured" class="mb-0">Mettre en avant</label>
             </div>

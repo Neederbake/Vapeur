@@ -2,6 +2,7 @@
     <h1>Ajouter un nouveau jeu</h1>
 
     <div class="form-card">
+        {{!-- Formulaire de création. Envoie les données en POST vers /jeux --}}
         <form action="/jeux" method="POST">
             <div class="form-group">
                 <label for="titre">Titre (max 200 caractères)</label>
@@ -17,6 +18,7 @@
                 <label for="genre">Genre</label>
                 <select name="genreId" id="genre" class="form-input" required>
                     <option value="">Sélectionner un genre</option>
+                    {{!-- Boucle pour afficher tous les genres disponibles dans la liste déroulante --}}
                     {{#each genres}}
                         <option value="{{this.id}}">{{this.nom}}</option>
                     {{/each}}

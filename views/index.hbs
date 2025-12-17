@@ -6,10 +6,13 @@
         </div>
     </div>
 
+    {{!-- {{#if hasGames}} : Vérifie si la variable 'hasGames' est vraie (true) ou contient quelque chose. --}}
     {{#if hasGames}}
         <div class="cards">
+            {{!-- {{#each games}} : Boucle sur la liste 'games'. Pour chaque jeu, on répète le code HTML ci-dessous. --}}
             {{#each games}}
                 <div class="card card-featured">
+                    {{!-- {{this.id}} : Affiche l'ID du jeu actuel dans la boucle. --}}
                     <a href="/jeux/{{this.id}}" class="card-link" aria-label="Voir les détails de {{this.titre}}"></a>
                     <div class="card-header flex-row-center">
                         <h2 class="name flex-1 mb-0">{{this.titre}}</h2>
@@ -17,9 +20,11 @@
                     </div>
                     
                     <div class="meta relative-z2" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        {{!-- Vérifie si le jeu a un genre associé --}}
                         {{#if this.genres}}
                             <a href="/genres/{{this.genres.id}}" class="clickable-badge">Genre : {{this.genres.nom}}</a>
                         {{else}}
+                            {{!-- Sinon (else), affiche ce message --}}
                             <span class="clickable-badge">Genre non renseigné</span>
                         {{/if}}
                         
@@ -35,6 +40,7 @@
             {{/each}}
         </div>
     {{else}}
+        {{!-- {{else}} : Si 'hasGames' est faux (pas de jeux), on affiche ce bloc. --}}
         <div class="empty-state">
             <p>Aucun jeu mis en avant pour le moment.</p>
             <a href="/jeux" class="btn btn-primary">Mettre un jeu en avant</a>

@@ -12,6 +12,7 @@
     <div class="form-card">
         <div class="jeu-details">
             <p><strong>Description :</strong> {{game.description}}</p>
+            {{!-- {{displayDate ...}} : Utilise le helper 'displayDate' défini dans main.js pour afficher la date joliment --}}
             <p><strong>Date de sortie :</strong> {{displayDate game.dateSortie}}</p>
             {{#if game.genres}}
                 <p><strong>Genre :</strong> <a href="/genres/{{game.genres.id}}" class="text-accent">{{game.genres.nom}}</a></p>
@@ -26,6 +27,7 @@
         <div class="form-actions">
             <a href="/jeux/{{game.id}}/edit" class="btn btn-primary">Modifier</a>
             
+            {{!-- Formulaire pour la suppression. On utilise POST car HTML ne supporte pas DELETE nativement --}}
             <form action="/jeux/{{game.id}}/delete" method="POST" class="inline-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?');">
                 <button type="submit" class="btn btn-danger">Supprimer</button>
             </form>
