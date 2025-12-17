@@ -1,6 +1,33 @@
-<h1>Jeux mis en avant</h1>
+<div class="container">
+    <div class="page-header">
+        <h1>Jeux mis en avant</h1>
+        <div class="actions">
+            <a href="/jeux" class="btn btn-secondary">Voir tous les jeux</a>
+        </div>
+    </div>
 
-<div class="games-grid">
-    {{{gamesHTML}}}
+    {{#if hasGames}}
+        <div class="cards">
+            {{#each games}}
+                <div class="card">
+                    <div class="card-header" style="display:flex;align-items:center;gap:0.5rem;">
+                        <h2 class="name" style="margin:0;flex:1;">{{this.titre}}</h2>
+                        <span class="badge" style="background:#00d4ff1a;border:1px solid #00d4ff33;padding:0.25rem 0.5rem;border-radius:999px;font-size:0.85rem;">Featured</span>
+                    </div>
+                    <p class="meta">{{#if this.genres}}{{this.genres.nom}}{{else}}Genre non renseigné{{/if}}</p>
+                    <p class="meta">{{#if this.editeur}}Éditeur : {{this.editeur.nom}}{{else}}Éditeur non renseigné{{/if}}</p>
+                    <p style="flex:1;">{{this.description}}</p>
+                    <div class="card-actions">
+                        <a href="/jeux/{{this.id}}" class="btn-edit">Voir détails</a>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <div class="empty-state">
+            <p>Aucun jeu mis en avant pour le moment.</p>
+            <a href="/jeux" class="btn btn-primary">Mettre un jeu en avant</a>
+        </div>
+    {{/if}}
 </div>
 
