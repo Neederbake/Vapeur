@@ -168,8 +168,11 @@ app.get("/jeux/:id/unfeature", async (req, res) => {
 // Détail d'un jeu
 app.get("/jeux/:id", async (req, res) => {
     try {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) return res.status(400).send("ID invalide");
+        
         const game = await prisma.jeux.findUnique({
-            where: { id: parseInt(req.params.id) },
+            where: { id },
             include: { 
                 editeur: true,
                 genres: true
