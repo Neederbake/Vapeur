@@ -72,10 +72,10 @@ app.get("/jeux", async (req, res) => {
 // Formulaire création jeu
 app.get("/jeux/new", async (req, res) => {
     try {
-        const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
-        const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
+        const genres = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
+        const editeurs = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
-        res.render("jeux/new", { types, editors });
+        res.render("jeux/new", { genres, editeurs });
     } catch (error) {
         console.error("Erreur formulaire jeu:", error);
         res.status(500).send("Erreur serveur");
@@ -130,10 +130,10 @@ app.get("/jeux/:id/edit", async (req, res) => {
         
         if (!game) return res.status(404).send("Jeu non trouvé");
         
-        const types = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
-        const editors = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
+        const genres = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
+        const editeurs = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
         
-        res.render("jeux/edit", { game, types, editors });
+        res.render("jeux/edit", { game, genres, editeurs });
     } catch (error) {
         console.error("Erreur formulaire edit jeu:", error);
         res.status(500).send("Erreur serveur");
@@ -181,20 +181,20 @@ app.post("/jeux/:id/delete", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des genres    ( get /types)
-   - La détail d'un genre   ( get /types/:id")
+   - La liste des genres    ( get /genres)
+   - La détail d'un genre   ( get /genres/:id")
 */
 
 // Liste des genres
-app.get("/types", async (req, res) => {
+app.get("/genres", async (req, res) => {
     try {
-        const types = await prisma.genres.findMany({
+        const genres = await prisma.genres.findMany({
             include: { jeux: true },
             orderBy: { nom: 'asc' },
         });
 
        
-        res.render("genres/index", { types });
+        res.render("genres/index", { genres });
     } catch (error) {
         console.error("Erreur liste genres:", error);
         res.status(500).send("Erreur serveur");
@@ -202,15 +202,15 @@ app.get("/types", async (req, res) => {
 });
 
 // Détail d'un genre
-app.get("/types/:id", async (req, res) => {
+app.get("/genres/:id", async (req, res) => {
     try {
-        const type = await prisma.genres.findUnique({
+        const genres = await prisma.genres.findUnique({
             where: { id: parseInt(req.params.id) },
             include: { jeux: { orderBy: { nom: 'asc' } } },
         });
         
-        if (!type) return res.status(404).send("Genre non trouvé");
-        res.render("genres/details", { type });
+        if (!genres) return res.status(404).send("Genre non trouvé");
+        res.render("genres/details", { genres });
     } catch (error) {
         console.error("Erreur détail genre:", error);
         res.status(500).send("Erreur serveur");
@@ -234,12 +234,12 @@ app.get("/types/:id", async (req, res) => {
 // Liste des éditeurs
 app.get("/editeurs", async (req, res) => {
     try {
-        const editors = await prisma.editeurs.findMany({
+        const editeurs = await prisma.editeurs.findMany({
             include: { jeux_publies: true },
             orderBy: { nom: 'asc' },
         });
         
-        res.render("editeurs/index", { editors });
+        res.render("editeurs/index", { editeurs });
     } catch (error) {
         console.error("Erreur liste éditeurs:", error);
         res.status(500).send("Erreur serveur");
@@ -335,9 +335,9 @@ app.use((req, res) => {
 //////////////////// INITIALISATION et DÉMARRAGE du SERVEUR //////////////////
 ////////////////////////////////////////////////////////////////////////////// 
 
-const { initializeGameTypes } = require('./js/seed');
+const { initializeGameGenres } = require('./js/seed');
 
-initializeGameTypes(prisma)
+initializeGameGenres(prisma)
     .then(() => {
         app.listen(PORT, () => {
             console.log(`✓ Serveur lancé sur http://localhost:${PORT}`);
