@@ -20,6 +20,21 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
+hbs.registerHelper('formatDate', function(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    const month = '' + (d.getMonth() + 1);
+    const day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+});
+
+hbs.registerHelper('displayDate', function(date) {
+    if (!date) return 'Non spécifiée';
+    return new Date(date).toLocaleDateString('fr-FR');
+});
+
 //////////////////////////////////////////////////////////////////////////////
 ////////////////// ROUTES ACCUEIL ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////// 
@@ -91,7 +106,7 @@ app.get("/jeux/new", async (req, res) => {
 // Créer un jeu
 app.post("/jeux", async (req, res) => {
     try {
-        const { titre, description, genreId, editeurId, featured } = req.body;
+        const { titre, description, genreId, editeurId, featured, dateSortie } = req.body;
 
         await prisma.jeux.create({
             data: {
@@ -100,6 +115,7 @@ app.post("/jeux", async (req, res) => {
                 genreId: genreId ? parseInt(genreId) : null, // Utilisation de genreId
                 editeurId: editeurId ? parseInt(editeurId) : null,
                 featured: featured === "on",
+                dateSortie: dateSortie ? new Date(dateSortie) : null,
             },
         });
         
@@ -183,7 +199,7 @@ app.get("/jeux/:id/edit", async (req, res) => {
 // Mettre à jour un jeu
 app.post("/jeux/:id/edit", async (req, res) => {
     try {
-        const { titre, description, genreId, editeurId, featured } = req.body;
+        const { titre, description, genreId, editeurId, featured, dateSortie } = req.body;
 
         await prisma.jeux.update({
             where: { id: parseInt(req.params.id) },
@@ -193,6 +209,7 @@ app.post("/jeux/:id/edit", async (req, res) => {
                 genreId: genreId ? parseInt(genreId) : null,
                 editeurId: editeurId ? parseInt(editeurId) : null,
                 featured: featured === "on",
+                dateSortie: dateSortie ? new Date(dateSortie) : null,
             },
         });
         res.redirect(`/jeux/${req.params.id}`);

@@ -9,17 +9,28 @@
     {{#if hasGames}}
         <div class="cards">
             {{#each games}}
-                <div class="card">
+                <div class="card card-featured">
+                    <a href="/jeux/{{this.id}}" class="card-link" aria-label="Voir les détails de {{this.titre}}"></a>
                     <div class="card-header flex-row-center">
                         <h2 class="name flex-1 mb-0">{{this.titre}}</h2>
-                        <span class="badge">Featured</span>
+                        <span class="badge badge-gold">Featured</span>
                     </div>
-                    <p class="meta">{{#if this.genres}}{{this.genres.nom}}{{else}}Genre non renseigné{{/if}}</p>
-                    <p class="meta">{{#if this.editeur}}Éditeur : {{this.editeur.nom}}{{else}}Éditeur non renseigné{{/if}}</p>
+                    
+                    <div class="meta relative-z2" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        {{#if this.genres}}
+                            <a href="/genres/{{this.genres.id}}" class="clickable-badge">Genre : {{this.genres.nom}}</a>
+                        {{else}}
+                            <span class="clickable-badge">Genre non renseigné</span>
+                        {{/if}}
+                        
+                        {{#if this.editeur}}
+                            <a href="/editeurs/{{this.editeur.id}}" class="clickable-badge">Éditeur : {{this.editeur.nom}}</a>
+                        {{else}}
+                            <span class="clickable-badge">Éditeur non renseigné</span>
+                        {{/if}}
+                    </div>
+
                     <p class="flex-1">{{this.description}}</p>
-                    <div class="card-actions">
-                        <a href="/jeux/{{this.id}}" class="btn-edit">Voir détails</a>
-                    </div>
                 </div>
             {{/each}}
         </div>

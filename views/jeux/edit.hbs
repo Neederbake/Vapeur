@@ -41,6 +41,11 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label for="dateSortie">Date de sortie</label>
+                <input type="date" name="dateSortie" id="dateSortie" value="{{formatDate game.dateSortie}}" class="form-input">
+            </div>
+
             <div class="form-group flex-row-center">
                 <input type="checkbox" name="featured" id="featured" {{#if game.featured}}checked{{/if}}>
                 <label for="featured" class="mb-0">Mettre en avant</label>

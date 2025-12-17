@@ -16,6 +16,9 @@
     --accent-hover: #00c8d4;
     --accent-dim: rgba(0, 242, 255, 0.1);
     
+    --gold-color: #ffd700;
+    --gold-dim: rgba(255, 215, 0, 0.15);
+    
     --border-color: #2a2a35;
     --border-focus: #00f2ff;
     
@@ -519,3 +522,51 @@ option {
         text-align: center;
     }
 }
+
+/* Clickable Cards Utilities */
+.card { position: relative; }
+.card-link { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+.relative-z2 { position: relative; z-index: 2; }
+
+/* Clickable Badges for Genres/Editors */
+.clickable-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+.clickable-badge:hover {
+    background: var(--accent-dim);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+
+/* Featured / Gold Theme */
+.card-featured {
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+}
+.card-featured:hover {
+    border-color: var(--gold-color);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+}
+.card-featured::before {
+    background: var(--gold-color);
+}
+.card-featured .name {
+    color: var(--gold-color);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+.badge-gold {
+    background-color: var(--gold-dim);
+    color: var(--gold-color);
+    border-color: rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+}
+

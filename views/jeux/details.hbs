@@ -1,12 +1,18 @@
 <div class="container">
     <div class="page-header">
-        <h1>{{game.titre}}</h1>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <h1>{{game.titre}}</h1>
+            {{#if game.featured}}
+                <span class="badge badge-gold">Mis en avant</span>
+            {{/if}}
+        </div>
         <a href="/jeux" class="btn btn-secondary">Retour à la liste</a>
     </div>
 
     <div class="form-card">
         <div class="jeu-details">
             <p><strong>Description :</strong> {{game.description}}</p>
+            <p><strong>Date de sortie :</strong> {{displayDate game.dateSortie}}</p>
             {{#if game.genres}}
                 <p><strong>Genre :</strong> <a href="/genres/{{game.genres.id}}" class="text-accent">{{game.genres.nom}}</a></p>
             {{else}}

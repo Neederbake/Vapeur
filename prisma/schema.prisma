@@ -17,6 +17,7 @@ model Jeux{
   id          Int      @id @default(autoincrement())
   titre       String
   description String
+  dateSortie  DateTime?
   createdAt   DateTime @default(now())
   featured    Boolean @default(false)
   genreId     Int?

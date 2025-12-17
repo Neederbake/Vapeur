@@ -6,18 +6,33 @@
 
     <div class="cards">
         {{#each games}}
-            <div class="card">
-                <h2 class="name">{{this.titre}}</h2>
-                <p class="meta">{{this.genre}}</p>
-                <p class="flex-1">{{this.description}}</p>
-                <div class="card-actions">
-                    <a href="/jeux/{{this.id}}" class="btn-edit">Voir détails</a>
+            <div class="card {{#if this.featured}}card-featured{{/if}}">
+                <a href="/jeux/{{this.id}}" class="card-link" aria-label="Voir les détails de {{this.titre}}"></a>
+                <div class="card-header flex-row-center relative-z2">
+                    <h2 class="name flex-1 mb-0">{{this.titre}}</h2>
                     {{#if this.featured}}
-                        <a href="/jeux/{{this.id}}/unfeature" class="btn btn-secondary">Retirer de la mise en avant</a>
+                        <span class="badge badge-gold">Featured</span>
+                        <a href="/jeux/{{this.id}}/unfeature" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; margin-left: 0.5rem;">Retirer</a>
                     {{else}}
-                        <a href="/jeux/{{this.id}}/feature" class="btn btn-primary">Mettre en avant</a>
+                        <a href="/jeux/{{this.id}}/feature" class="btn btn-primary" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">Mettre en avant</a>
                     {{/if}}
                 </div>
+                
+                <div class="meta relative-z2" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    {{#if this.genres}}
+                        <a href="/genres/{{this.genres.id}}" class="clickable-badge">Genre : {{this.genres.nom}}</a>
+                    {{else}}
+                        <span class="clickable-badge">Genre non renseigné</span>
+                    {{/if}}
+
+                    {{#if this.editeur}}
+                        <a href="/editeurs/{{this.editeur.id}}" class="clickable-badge">Éditeur : {{this.editeur.nom}}</a>
+                    {{else}}
+                        <span class="clickable-badge">Éditeur non renseigné</span>
+                    {{/if}}
+                </div>
+
+                <p class="flex-1">{{this.description}}</p>
             </div>
         {{else}}
             <div class="empty-state">
