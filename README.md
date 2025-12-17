@@ -12,7 +12,7 @@ Application Express/Handlebars pour gérer une bibliothèque de jeux vidéo, leu
 2) Créer un fichier `.env` à la racine avec `DATABASE_URL="file:./dev.db"`
 3) Générer le client Prisma : `npx prisma generate`
 4) Appliquer les migrations si nécessaire : `npx prisma migrate dev`
-5) (Optionnel) Préremplir les genres via le script d’init appelé au démarrage : voir [js/seed.js](js/seed.js)
+
 
 ##  Scripts NPM
 - `npm run dev` : lance le serveur avec nodemon sur le port 3008
