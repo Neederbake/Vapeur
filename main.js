@@ -199,7 +199,6 @@ app.get("/genres", async (req, res) => {
             orderBy: { nom: 'asc' },
         });
 
-       
         res.render("genres/index", { genres });
     } catch (error) {
         console.error("Erreur liste genres:", error);
@@ -207,13 +206,24 @@ app.get("/genres", async (req, res) => {
     }
 });
 
+
+//// AREVOIIIIRRRRRRRRRRRRRRRRRRRRRR
 // Détail d'un genre
 app.get("/genres/:id", async (req, res) => {
     try {
         const genre = await prisma.genres.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { jeux: { orderBy: { titre: 'asc' } } },
+            include: { 
+                jeux: { 
+                    include: { jeu: true }
+                } 
+            },
         });
+        
+        // Trier les jeux par titre côté application
+        if (genre && genre.jeux) {
+            genre.jeux.sort((a, b) => a.jeu.titre.localeCompare(b.jeu.titre));
+        }
         
         if (!genre) return res.status(404).send("Genre non trouvé");
         res.render("genres/details", { genre });
