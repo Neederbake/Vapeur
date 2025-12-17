@@ -2,8 +2,8 @@
 	<div class="page-header">
 		<h1>{{editor.nom}}</h1>
 		<div class="actions">
-			<a href="/editors/{{editor.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
-			<form action="/editors/{{editor.id}}/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer cet éditeur ?');">
+			<a href="/editeurs/{{editor.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
+			<form action="/editeurs/{{editor.id}}/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer cet éditeur ?');">
 				<button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
 			</form>
 		</div>
@@ -20,15 +20,3 @@
 		<p>Aucun jeu publié pour cet éditeur.</p>
 	{{/if}}
 </div>
-
-<style>
-.container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
-.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.page-header h1 { color: #00d4ff; margin: 0; }
-.actions { display: flex; gap: 0.5rem; }
-.btn { padding: 0.5rem 0.9rem; border-radius: 4px; text-decoration: none; border: none; cursor: pointer; }
-.btn-secondary { background: rgba(0,212,255,0.2); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
-.btn-danger { background: #cc3344; color: #fff; }
-.simple-list { list-style: none; padding: 0; margin: 0; }
-.simple-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(0,212,255,0.2); }
-</style>

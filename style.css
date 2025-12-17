@@ -278,3 +278,52 @@ main {
         font-size: 1.5rem;
     }
 }
+
+/* Pages: Éditeurs */
+.container { max-width: 1200px; margin: 2rem auto; padding: 1rem; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.page-header h1 { color: #00d4ff; margin: 0; }
+.editeurs-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 1rem; padding: 0.5rem 0; }
+.editeurs-title { grid-column: 2; justify-self: center; text-align: center; }
+.add-editor { grid-column: 3; justify-self: end; }
+
+@media (max-width: 640px) {
+    .editeurs-header { grid-template-columns: 1fr; row-gap: 0.75rem; }
+    .editeurs-title { grid-column: 1; justify-self: center; }
+    .add-editor { grid-column: 1; justify-self: center; }
+}
+
+
+/* Buttons */
+.btn { padding: 0.55rem 1rem; text-decoration: none; border-radius: 6px; display: inline-block; }
+.btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #0f0f1e; }
+.btn-secondary { background: rgba(0,212,255,0.2); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
+.btn-danger { background: #cc3344; color: #fff; border: none; cursor: pointer; }
+
+/* Editors index cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.card { background: rgba(26, 26, 46, 0.85); border: 1px solid rgba(0,212,255,0.22); border-radius: 12px; padding: 1rem; text-decoration: none; color: #e0e0e0; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; display: flex; flex-direction: column; gap: 0.5rem; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,212,255,0.12); border-color: #00d4ff; }
+.name { margin: 0; color: #00d4ff; font-size: 1.05rem; }
+.meta { color: #9bb; font-size: 0.9rem; }
+.count { background: rgba(0,212,255,0.12); color: #00d4ff; border: 1px solid rgba(0,212,255,0.25); border-radius: 999px; padding: 0.2rem 0.5rem; }
+.card-actions { margin-top: 0.25rem; }
+.btn-edit { display: inline-block; padding: 0.35rem 0.6rem; border-radius: 6px; border: 1px solid rgba(0,212,255,0.3); color: #00d4ff; text-decoration: none; background: rgba(0,212,255,0.1); font-size: 0.85rem; }
+.btn-edit:hover { background: rgba(0,212,255,0.18); }
+
+/* Editors details list */
+.simple-list { list-style: none; padding: 0; margin: 0; }
+.simple-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(0,212,255,0.2); }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 2rem; border: 1px dashed rgba(0,212,255,0.3); border-radius: 8px; }
+
+/* Editors forms (new/edit) */
+.container h1 { color: #00d4ff; margin-bottom: 1.5rem; font-size: 2rem; }
+.form-card { background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; padding: 2rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; color: #00d4ff; font-weight: 500; margin-bottom: 0.5rem; }
+.form-input { width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 4px; color: #e0e0e0; font-size: 1rem; transition: all 0.3s ease; }
+.form-input:focus { outline: none; border-color: #00d4ff; background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1); }
+.form-input::placeholder { color: rgba(224, 224, 224, 0.5); }
+.form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
