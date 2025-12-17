@@ -210,13 +210,13 @@ app.get("/genres", async (req, res) => {
 // Détail d'un genre
 app.get("/genres/:id", async (req, res) => {
     try {
-        const genres = await prisma.genres.findUnique({
+        const genre = await prisma.genres.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { jeux: { orderBy: { jeu: { titre: 'asc' } } } },
+            include: { jeux: { orderBy: { titre: 'asc' } } },
         });
         
-        if (!genres) return res.status(404).send("Genre non trouvé");
-        res.render("genres/details", { genres });
+        if (!genre) return res.status(404).send("Genre non trouvé");
+        res.render("genres/details", { genre });
     } catch (error) {
         console.error("Erreur détail genre:", error);
         res.status(500).send("Erreur serveur");
@@ -304,7 +304,7 @@ app.post("/editeurs/:id/edit", async (req, res) => {
     try {
         await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
-            data: { nom: req.body.nom },
+            data: { nom: req.body.nom },z
         });
         
         res.redirect(`/editeurs`);
