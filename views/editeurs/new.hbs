@@ -1,6 +1,8 @@
+{{!-- Formulaire de création d'un nouvel éditeur --}}
 <div class="container">
     <h1>Nouvel Éditeur</h1>
     
+    {{!-- Formulaire POST pour créer un éditeur --}}
     <form action="/editeurs" method="POST" class="form-card">
         <div class="form-group">
             <label for="nom">Nom de l'éditeur *</label>
@@ -14,6 +16,7 @@
             >
         </div>
 
+        {{!-- Boutons : créer ou annuler et retourner à la liste --}}
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Créer l'éditeur</button>
             <a href="/editeurs" class="btn btn-secondary">Annuler</a>

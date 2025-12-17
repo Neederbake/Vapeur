@@ -1,15 +1,19 @@
+{{!-- Liste de tous les éditeurs avec nombre de jeux publiés --}}
 <div class="container">
+    {{!-- En-tête avec titre centré et bouton d'ajout --}}
     <div class="page-header editeurs-header">
         <h1 class="editeurs-title">Éditeurs</h1>
         <a href="/editeurs/new" class="btn btn-primary add-editor">➕ Nouvel éditeur</a>
     </div>
 
     {{#if editeurs}}
+        {{!-- Grille de cartes, chaque carte est cliquable pour voir le détail --}}
         <div class="cards">
             {{#each editeurs}}
                 <a href="/editeurs/{{this.id}}" class="card">
                     <h3 class="name">{{this.nom}}</h3>
                     <div class="meta">
+                        {{!-- Compteur de jeux publiés --}}
                         <span class="count">{{this.jeux_publies.length}} jeu(x) publié(s)</span>
                     </div>
                 </a>

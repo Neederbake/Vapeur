@@ -1,14 +1,17 @@
+{{!-- Liste de tous les genres en grille 3x3 avec nombre de jeux --}}
 <div class="container">
     <div class="page-header editeurs-header">
         <h1 class="editeurs-title">Genres</h1>
     </div>
 
     {{#if genres}}
+        {{!-- Grille de cartes 3 colonnes, chaque carte est cliquable --}}
         <div class="cards genres-grid">
             {{#each genres}}
                 <a href="/genres/{{this.id}}" class="card">
                     <h3 class="name">{{this.nom}}</h3>
                     <div class="meta">
+                        {{!-- Compteur de jeux du genre --}}
                         <span class="count">{{this.jeux.length}} jeu(x)</span>
                     </div>
                 </a>

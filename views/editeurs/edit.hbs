@@ -1,6 +1,8 @@
+{{!-- Formulaire de modification d'un éditeur --}}
 <div class="container">
     <h1>Modifier l'éditeur</h1>
     
+    {{!-- Formulaire POST pour mettre à jour le nom --}}
     <form action="/editeurs/{{editeur.id}}/edit" method="POST" class="form-card">
         <div class="form-group">
             <label for="nom">Nom de l'éditeur *</label>
@@ -15,6 +17,7 @@
             >
         </div>
 
+        {{!-- Boutons : enregistrer ou annuler et retourner à la liste --}}
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
             <a href="/editeurs" class="btn btn-secondary">Annuler</a>
