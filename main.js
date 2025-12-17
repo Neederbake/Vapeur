@@ -1,3 +1,9 @@
+// jeux implémentation
+// 
+
+
+
+
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const bodyParser = require("body-parser");
@@ -45,13 +51,13 @@ app.get("/", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////// 
 
 /* Petit récap rapide, ça fait toujours plaisir :
-   - La liste des jeux          ( get /games)
-   - La création d'un jeu       ( get /games/new)
-   - La création d'un jeu       ( post /games)
-   - Le détail d'un jeu         ( get /games/:id)
-   - La modification d'un jeu   ( get /games/:id/edit)
-   - La modification d'un jeu   ( post /games/:id/edit)
-   - La suppression d'un jeu    ( post /games/:id/delete)
+   - La liste des jeux          ( get /jeux)
+   - La création d'un jeu       ( get /jeux/new)
+   - La création d'un jeu       ( post /jeux)
+   - Le détail d'un jeu         ( get /jeux/:id)
+   - La modification d'un jeu   ( get /jeux/:id/edit)
+   - La modification d'un jeu   ( post /jeux/:id/edit)
+   - La suppression d'un jeu    ( post /jeux/:id/delete)
 */
 
 // Liste de tous les jeux
