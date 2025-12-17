@@ -108,10 +108,21 @@ app.post("/jeux", async (req, res) => {
     try {
         const { titre, description, genreId, editeurId, featured, dateSortie } = req.body;
 
+        // Validation des longueurs
+        if (!titre || titre.trim().length === 0) {
+            return res.status(400).send("Le titre est requis");
+        }
+        if (titre.length > 200) {
+            return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
+        }
+        if (description && description.length > 2000) {
+            return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
+        }
+
         await prisma.jeux.create({
             data: {
-                titre,
-                description: description || "",
+                titre: titre.trim(),
+                description: description ? description.trim() : "",
                 genreId: genreId ? parseInt(genreId) : null, // Utilisation de genreId
                 editeurId: editeurId ? parseInt(editeurId) : null,
                 featured: featured === "on",
@@ -201,11 +212,22 @@ app.post("/jeux/:id/edit", async (req, res) => {
     try {
         const { titre, description, genreId, editeurId, featured, dateSortie } = req.body;
 
+        // Validation des longueurs
+        if (!titre || titre.trim().length === 0) {
+            return res.status(400).send("Le titre est requis");
+        }
+        if (titre.length > 200) {
+            return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
+        }
+        if (description && description.length > 2000) {
+            return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
+        }
+
         await prisma.jeux.update({
             where: { id: parseInt(req.params.id) },
             data: {
-                titre,
-                description: description || "",
+                titre: titre.trim(),
+                description: description ? description.trim() : "",
                 genreId: genreId ? parseInt(genreId) : null,
                 editeurId: editeurId ? parseInt(editeurId) : null,
                 featured: featured === "on",
@@ -314,7 +336,17 @@ app.get("/editeurs/new", (req, res) => {
 // Créer un éditeur
 app.post("/editeurs", async (req, res) => {
     try {
-        await prisma.editeurs.create({ data: { nom: req.body.nom } });
+        const { nom } = req.body;
+        
+        // Validation des longueurs
+        if (!nom || nom.trim().length === 0) {
+            return res.status(400).send("Le nom est requis");
+        }
+        if (nom.length > 150) {
+            return res.status(400).send("Le nom ne peut pas dépasser 150 caractères");
+        }
+        
+        await prisma.editeurs.create({ data: { nom: nom.trim() } });
         res.redirect("/editeurs");
     } catch (error) {
         console.error("Erreur création éditeur:", error);
@@ -361,9 +393,19 @@ app.get("/editeurs/:id/edit", async (req, res) => {
 // Mettre à jour un éditeur
 app.post("/editeurs/:id/edit", async (req, res) => {
     try {
+        const { nom } = req.body;
+        
+        // Validation des longueurs
+        if (!nom || nom.trim().length === 0) {
+            return res.status(400).send("Le nom est requis");
+        }
+        if (nom.length > 150) {
+            return res.status(400).send("Le nom ne peut pas dépasser 150 caractères");
+        }
+        
         await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
-            data: { nom: req.body.nom },
+            data: { nom: nom.trim() },
         });
         
         res.redirect(`/editeurs/${req.params.id}`);

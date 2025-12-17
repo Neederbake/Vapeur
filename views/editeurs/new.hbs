@@ -5,13 +5,14 @@
     {{!-- Formulaire POST pour créer un éditeur --}}
     <form action="/editeurs" method="POST" class="form-card">
         <div class="form-group">
-            <label for="nom">Nom de l'éditeur *</label>
+            <label for="nom">Nom de l'éditeur * (max 150 caractères)</label>
             <input 
                 type="text" 
                 id="nom" 
                 name="nom" 
                 class="form-input" 
                 placeholder="Ex: Ubisoft, Electronic Arts, Activision..."
+                maxlength="150"
                 required
             >
         </div>

@@ -5,7 +5,7 @@
     {{!-- Formulaire POST pour mettre à jour le nom --}}
     <form action="/editeurs/{{editeur.id}}/edit" method="POST" class="form-card">
         <div class="form-group">
-            <label for="nom">Nom de l'éditeur *</label>
+            <label for="nom">Nom de l'éditeur * (max 150 caractères)</label>
             <input 
                 type="text" 
                 id="nom" 
@@ -13,6 +13,7 @@
                 class="form-input" 
                 value="{{editeur.nom}}"
                 placeholder="Ex: Ubisoft, Electronic Arts, Activision..."
+                maxlength="150"
                 required
             >
         </div>
