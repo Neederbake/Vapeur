@@ -1,16 +1,23 @@
-<h1>Liste des Jeux</h1>
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Jeux</h1>
+        <a href="/jeux/new" class="btn btn-primary">Ajouter un jeu</a>
+    </div>
 
-<a href="/jeux/new" class="btn">Ajouter un jeu</a>
-
-<div class="jeux-list">
-    {{#each jeux}}
-        <div class="jeu-item">
-            <h2>{{this.titre}}</h2>
-            <p>{{this.description}}</p>
-            <a href="/jeux/{{this.id}}">Voir détails</a>
-            <!-- Tu peux ajouter ici les liens pour éditer ou supprimer -->
-        </div>
-    {{else}}
-        <p>Aucun jeu trouvé.</p>
-    {{/each}}
+    <div class="cards">
+        {{#each games}}
+            <div class="card">
+                <h2 class="name">{{this.titre}}</h2>
+                <p class="meta">{{this.genre}}</p>
+                <p style="flex: 1;">{{this.description}}</p>
+                <div class="card-actions">
+                    <a href="/jeux/{{this.id}}" class="btn-edit">Voir détails</a>
+                </div>
+            </div>
+        {{else}}
+            <div class="empty-state">
+                <p>Aucun jeu trouvé.</p>
+            </div>
+        {{/each}}
+    </div>
 </div>
