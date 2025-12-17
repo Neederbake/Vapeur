@@ -179,7 +179,7 @@ app.get("/jeux/:id", async (req, res) => {
             },
         });
         
-        if (!game) return res.status(404).send("Jeu non trouvé");
+        if (!game) return res.status(404).render("errors/404");
         res.render("jeux/details", { game });
     } catch (error) {
         console.error("Erreur détail jeu:", error);
@@ -198,7 +198,7 @@ app.get("/jeux/:id/edit", async (req, res) => {
             },
         });
         
-        if (!game) return res.status(404).send("Jeu non trouvé");
+        if (!game) return res.status(404).render("errors/404");
         
         const genres = await prisma.genres.findMany({ orderBy: { nom: 'asc' } });
         const editeurs = await prisma.editeurs.findMany({ orderBy: { nom: 'asc' } });
@@ -294,7 +294,7 @@ app.get("/genres/:id", async (req, res) => {
             },
         });
         
-        if (!genre) return res.status(404).send("Genre non trouvé");
+        if (!genre) return res.status(404).render("errors/404");
         res.render("genres/details", { genre });
     } catch (error) {
         console.error("Erreur détail genre:", error);
@@ -370,7 +370,7 @@ app.get("/editeurs/:id", async (req, res) => {
             },
         });
         
-        if (!editeur) return res.status(404).send("Éditeur non trouvé");
+        if (!editeur) return res.status(404).render("errors/404");
         res.render("editeurs/details", { editeur });
     } catch (error) {
         console.error("Erreur détail éditeur:", error);
@@ -385,7 +385,7 @@ app.get("/editeurs/:id/edit", async (req, res) => {
             where: { id: parseInt(req.params.id) },
         });
         
-        if (!editeur) return res.status(404).send("Éditeur non trouvé");
+        if (!editeur) return res.status(404).render("errors/404");
         res.render("editeurs/edit", { editeur });
     } catch (error) {
         console.error("Erreur formulaire edit éditeur:", error);
