@@ -1,0 +1,17 @@
+<div class="genres-container">
+    <h1>Genres</h1>
+    
+    {{#if genres}}
+        <div class="genres-list">
+            {{#each genres}}
+                <div class="genre-card">
+                    <h2>{{this.nom}}</h2>
+                    <p>{{this.description}}</p>
+                    <a href="/genres/{{this.id}}" class="btn"> Voir plus</a>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <p>Aucun genre trouvé.</p>
+    {{/if}}
+</div>
