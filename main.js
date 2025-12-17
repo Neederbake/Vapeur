@@ -115,7 +115,7 @@ app.post("/jeux", async (req, res) => {
         if (titre.length > 200) {
             return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
         }
-        if (description && description.length > 2000) {
+        if (description && description.length > 400) {
             return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
         }
 
@@ -219,7 +219,7 @@ app.post("/jeux/:id/edit", async (req, res) => {
         if (titre.length > 200) {
             return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
         }
-        if (description && description.length > 2000) {
+        if (description && description.length > 400) {
             return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
         }
 
