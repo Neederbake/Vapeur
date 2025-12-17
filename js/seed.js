@@ -23,7 +23,7 @@ const types = [
 ];
 
 // Fonction pour initialiser les genres au démarrage
-async function initializeGameTypes(prisma) {
+async function initializeGameGenres(prisma) {
     for (const genreName of types) {
         // Vérifier si le genre existe déjà
         const existingGenre = await prisma.genres.findFirst({
@@ -43,5 +43,5 @@ async function initializeGameTypes(prisma) {
 // Exporter les genres et la fonction d'initialisation
 module.exports = {
     types,
-    initializeGameTypes
+    initializeGameGenres
 };

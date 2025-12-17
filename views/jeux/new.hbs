@@ -1,0 +1,38 @@
+<h1>Ajouter un nouveau jeu</h1>
+
+<form action="/jeux" method="POST">
+    <div>
+        <label for="titre">Titre</label>
+        <input type="text" name="titre" id="titre" required>
+    </div>
+
+    <div>
+        <label for="description">Description</label>
+        <textarea name="description" id="description"></textarea>
+    </div>
+
+    <div>
+        <label for="genre">Genre</label>
+        <select name="genre" id="genre" required>
+            <option value="">Sélectionner un genres</option>
+            {{#each genres}}
+                <option value="{{this.id}}">{{this.nom}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div>
+        <label for="editeur">Éditeur</label>
+        <select name="editeur" id="editeur" required>
+            <option value="">Sélectionner un éditeur</option>
+            {{#each editeurs}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit">Créer le jeu</button>
+</form>
+
+<a href="/jeux">Annuler</a>
+

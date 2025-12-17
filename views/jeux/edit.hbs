@@ -1,0 +1,24 @@
+<h1>Modifier le jeu : {{jeu.titre}}</h1>
+
+<form action="/jeux/{{jeu.id}}/edit" method="POST">
+    <div>
+        <label for="titre">Titre</label>
+        <input type="text" name="titre" id="titre" value="{{jeu.titre}}" required>
+    </div>
+
+    <div>
+        <label for="description">Description</label>
+        <textarea name="description" id="description">{{jeu.description}}</textarea>
+    </div>
+
+    <div>
+        <label for="genre">Genre</label>
+        <input type="text" name="genre" id="genre" value="{{jeu.genre}}">
+    </div>
+
+    <!-- Ajoute ici le champ pour l'éditeur, en pré-sélectionnant l'actuel -->
+
+    <button type="submit">Mettre à jour</button>
+</form>
+
+<a href="/jeux/{{jeu.id}}">Annuler</a>
