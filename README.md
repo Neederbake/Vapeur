@@ -1,4 +1,4 @@
-#  Vapeur  -  <img src="image/logo.png" alt="Logo Vapeur" width="30">
+#  Vapeur  -  <img src="image/logo.png" alt="Logo Vapeur" width="35">
 
 
 Application Express/Handlebars pour gérer une bibliothèque de jeux vidéo, leurs éditeurs et leurs genres. Les listes sont triées, chaque fiche est cliquable, et l’accueil met en avant les jeux « featured ».
