@@ -1,23 +1,25 @@
-# 🎮 Vapeur
+#  Vapeur
+
+![Logo Vapeur](image/logo.png)
 
 Application Express/Handlebars pour gérer une bibliothèque de jeux vidéo, leurs éditeurs et leurs genres. Les listes sont triées, chaque fiche est cliquable, et l’accueil met en avant les jeux « featured ».
 
-## 🚀 Prérequis
+##  Prérequis
 - Node.js 18+
 - SQLite (embarqué par Prisma)
 
-## 🔧 Installation
+##  Installation
 1) Installer les dépendances : `npm install`
 2) Créer un fichier `.env` à la racine avec `DATABASE_URL="file:./dev.db"`
 3) Générer le client Prisma : `npx prisma generate`
 4) Appliquer les migrations si nécessaire : `npx prisma migrate dev`
 5) (Optionnel) Préremplir les genres via le script d’init appelé au démarrage : voir [js/seed.js](js/seed.js)
 
-## ▶️ Scripts NPM
+##  Scripts NPM
 - `npm run dev` : lance le serveur avec nodemon sur le port 3008
 - `npm start` : lance le serveur en mode production
 
-## 📁 Arborescence (principaux fichiers)
+##  Arborescence (principaux fichiers)
 ```
 Vapeur/
 ├─ image/                  # Assets (logo…)
@@ -41,7 +43,7 @@ Vapeur/
 └─ README.md               # Ce fichier
 ```
 
-## 🗄️ Modèle de données (Prisma)
+##  Modèle de données (Prisma)
 ```prisma
 model Jeux {
   id          Int       @id @default(autoincrement())
@@ -68,13 +70,13 @@ model Editeurs {
 }
 ```
 
-## ✨ Fonctionnalités
+##  Fonctionnalités
 - CRUD pour Jeux, Éditeurs, Genres
 - Tri alphabétique des listes
 - Page d’accueil avec jeux mis en avant (`featured`)
 - Navigation cohérente et fiches entièrement cliquables
 
-## 🧭 Points d’entrée utiles
+##  Points d’entrée utiles
 - Routes et logique serveur : [main.js](main.js)
 - Templates Handlebars : [views](views)
 - Schéma et migrations : [prisma](prisma)
