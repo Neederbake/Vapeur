@@ -1,17 +1,22 @@
-<div class="genres-container">
-    <h1>Genres</h1>
-    
+<div class="container">
+    <div class="page-header editeurs-header">
+        <h1 class="editeurs-title">Genres</h1>
+    </div>
+
     {{#if genres}}
-        <div class="genres-list">
+        <div class="cards">
             {{#each genres}}
-                <div class="genre-card">
-                    <h2>{{this.nom}}</h2>
-                    <p>{{this.description}}</p>
-                    <a href="/genres/{{this.id}}" class="btn"> Voir plus</a>
-                </div>
+                <a href="/genres/{{this.id}}" class="card">
+                    <h3 class="name">{{this.nom}}</h3>
+                    <div class="meta">
+                        <span class="count">{{this.jeux.length}} jeu(x)</span>
+                    </div>
+                </a>
             {{/each}}
         </div>
     {{else}}
-        <p>Aucun genre trouvé.</p>
+        <div class="empty-state">
+            <p>Aucun genre pour le moment.</p>
+        </div>
     {{/if}}
 </div>
