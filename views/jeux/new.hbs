@@ -1,38 +1,43 @@
-<h1>Ajouter un nouveau jeu</h1>
+<div class="container">
+    <h1>Ajouter un nouveau jeu</h1>
 
-<form action="/jeux" method="POST">
-    <div>
-        <label for="titre">Titre</label>
-        <input type="text" name="titre" id="titre" required>
+    <div class="form-card">
+        <form action="/jeux" method="POST">
+            <div class="form-group">
+                <label for="titre">Titre</label>
+                <input type="text" name="titre" id="titre" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" class="form-input" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select name="genre" id="genre" class="form-input" required>
+                    <option value="">Sélectionner un genre</option>
+                    {{#each genres}}
+                        <option value="{{this.nom}}">{{this.nom}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="editeur">Éditeur</label>
+                <select name="editeurId" id="editeur" class="form-input" required>
+                    <option value="">Sélectionner un éditeur</option>
+                    {{#each editeurs}}
+                    <option value="{{this.id}}">{{this.nom}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Créer le jeu</button>
+                <a href="/jeux" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
     </div>
-
-    <div>
-        <label for="description">Description</label>
-        <textarea name="description" id="description"></textarea>
-    </div>
-
-    <div>
-        <label for="genre">Genre</label>
-        <select name="genre" id="genre" required>
-            <option value="">Sélectionner un genres</option>
-            {{#each genres}}
-                <option value="{{this.nom}}">{{this.nom}}</option>
-            {{/each}}
-        </select>
-    </div>
-
-    <div>
-        <label for="editeur">Éditeur</label>
-        <select name="editeurId" id="editeur" required>
-            <option value="">Sélectionner un éditeur</option>
-            {{#each editeurs}}
-            <option value="{{this.id}}">{{this.nom}}</option>
-            {{/each}}
-        </select>
-    </div>
-
-    <button type="submit">Créer le jeu</button>
-</form>
-
-<a href="/jeux">Annuler</a>
+</div>
 

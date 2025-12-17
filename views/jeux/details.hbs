@@ -1,19 +1,24 @@
-<h1>{{jeu.titre}}</h1>
+<div class="container">
+    <div class="page-header">
+        <h1>{{game.titre}}</h1>
+        <a href="/jeux" class="btn btn-secondary">Retour à la liste</a>
+    </div>
 
-<div class="jeu-details">
-    <p><strong>Description :</strong> {{jeu.description}}</p>
-    <p><strong>Genre :</strong> {{jeu.genre}}</p>
-    <!-- Ajoute ici d'autres informations comme l'éditeur, la date de sortie, etc. -->
-</div>
+    <div class="form-card">
+        <div class="jeu-details">
+            <p><strong>Description :</strong> {{game.description}}</p>
+            <p><strong>Genre :</strong> {{game.genre}}</p>
+            {{#if game.editeur}}
+                <p><strong>Éditeur :</strong> <a href="/editeurs/{{game.editeur.id}}" style="color: #00d4ff;">{{game.editeur.nom}}</a></p>
+            {{/if}}
+        </div>
 
-<div class="actions">
-    <a href="/jeux/{{jeu.id}}/edit">Modifier</a>
-    <a href="/jeux">Retour à la liste</a>
-    
-    <!-- Exemple de formulaire pour la suppression -->
-    <!--
-    <form action="/jeux/{{jeu.id}}/delete" method="POST" style="display:inline;">
-        <button type="submit">Supprimer</button>
-    </form>
-    -->
+        <div class="form-actions" style="margin-top: 2rem; border-top: 1px solid rgba(0,212,255,0.2); padding-top: 1rem;">
+            <a href="/jeux/{{game.id}}/edit" class="btn btn-primary">Modifier</a>
+            
+            <form action="/jeux/{{game.id}}/delete" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?');">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+        </div>
+    </div>
 </div>

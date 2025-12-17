@@ -1,24 +1,46 @@
-<h1>Modifier le jeu : {{jeu.titre}}</h1>
+<div class="container">
+    <h1>Modifier le jeu : {{jeu.titre}}</h1>
 
-<form action="/jeux/{{jeu.id}}/edit" method="POST">
-    <div>
-        <label for="titre">Titre</label>
-        <input type="text" name="titre" id="titre" value="{{jeu.titre}}" required>
+    <div class="form-card">
+        <form action="/jeux/{{jeu.id}}/edit" method="POST">
+            <div class="form-group">
+                <label for="titre">Titre</label>
+                <input type="text" name="titre" id="titre" value="{{jeu.titre}}" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" class="form-input" rows="4">{{jeu.description}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select name="genre" id="genre" class="form-input">
+                    <option value="{{jeu.genre}}" selected>{{jeu.genre}}</option>
+                    {{#each genres}}
+                        <option value="{{this.nom}}">{{this.nom}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="editeurId">Éditeur</label>
+                <select name="editeurId" id="editeurId" class="form-input">
+                     {{#if jeu.editeur}}
+                        <option value="{{jeu.editeur.id}}" selected>{{jeu.editeur.nom}}</option>
+                    {{else}}
+                        <option value="">Sélectionner un éditeur</option>
+                    {{/if}}
+                    {{#each editeurs}}
+                        <option value="{{this.id}}">{{this.nom}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                <a href="/jeux/{{jeu.id}}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
     </div>
-
-    <div>
-        <label for="description">Description</label>
-        <textarea name="description" id="description">{{jeu.description}}</textarea>
-    </div>
-
-    <div>
-        <label for="genre">Genre</label>
-        <input type="text" name="genre" id="genre" value="{{jeu.genre}}">
-    </div>
-
-    <!-- Ajoute ici le champ pour l'éditeur, en pré-sélectionnant l'actuel -->
-
-    <button type="submit">Mettre à jour</button>
-</form>
-
-<a href="/jeux/{{jeu.id}}">Annuler</a>
+</div>
