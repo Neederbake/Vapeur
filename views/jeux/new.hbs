@@ -15,10 +15,10 @@
 
             <div class="form-group">
                 <label for="genre">Genre</label>
-                <select name="genre" id="genre" class="form-input" required>
+                <select name="genreId" id="genre" class="form-input" required>
                     <option value="">Sélectionner un genre</option>
                     {{#each genres}}
-                        <option value="{{this.nom}}">{{this.nom}}</option>
+                        <option value="{{this.id}}">{{this.nom}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -31,6 +31,11 @@
                     <option value="{{this.id}}">{{this.nom}}</option>
                     {{/each}}
                 </select>
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="featured" id="featured">
+                <label for="featured" style="margin-bottom: 0;">Mettre en avant</label>
             </div>
 
             <div class="form-actions">

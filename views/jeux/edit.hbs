@@ -1,24 +1,28 @@
 <div class="container">
-    <h1>Modifier le jeu : {{jeu.titre}}</h1>
+    <h1>Modifier le jeu : {{game.titre}}</h1>
 
     <div class="form-card">
-        <form action="/jeux/{{jeu.id}}/edit" method="POST">
+        <form action="/jeux/{{game.id}}/edit" method="POST">
             <div class="form-group">
                 <label for="titre">Titre</label>
-                <input type="text" name="titre" id="titre" value="{{jeu.titre}}" class="form-input" required>
+                <input type="text" name="titre" id="titre" value="{{game.titre}}" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" class="form-input" rows="4">{{jeu.description}}</textarea>
+                <textarea name="description" id="description" class="form-input" rows="4">{{game.description}}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="genre">Genre</label>
-                <select name="genre" id="genre" class="form-input">
-                    <option value="{{jeu.genre}}" selected>{{jeu.genre}}</option>
+                <select name="genreId" id="genre" class="form-input">
+                    {{#if game.genres}}
+                        <option value="{{game.genres.id}}" selected>{{game.genres.nom}}</option>
+                    {{else}}
+                        <option value="">Sélectionner un genre</option>
+                    {{/if}}
                     {{#each genres}}
-                        <option value="{{this.nom}}">{{this.nom}}</option>
+                        <option value="{{this.id}}">{{this.nom}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -26,8 +30,8 @@
             <div class="form-group">
                 <label for="editeurId">Éditeur</label>
                 <select name="editeurId" id="editeurId" class="form-input">
-                     {{#if jeu.editeur}}
-                        <option value="{{jeu.editeur.id}}" selected>{{jeu.editeur.nom}}</option>
+                     {{#if game.editeur}}
+                        <option value="{{game.editeur.id}}" selected>{{game.editeur.nom}}</option>
                     {{else}}
                         <option value="">Sélectionner un éditeur</option>
                     {{/if}}
@@ -37,9 +41,14 @@
                 </select>
             </div>
 
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="featured" id="featured" {{#if game.featured}}checked{{/if}}>
+                <label for="featured" style="margin-bottom: 0;">Mettre en avant</label>
+            </div>
+
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                <a href="/jeux/{{jeu.id}}" class="btn btn-secondary">Annuler</a>
+                <a href="/jeux/{{game.id}}" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>

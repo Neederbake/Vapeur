@@ -92,12 +92,12 @@ app.get("/jeux/new", async (req, res) => {
 app.post("/jeux", async (req, res) => {
     try {
         const { titre, description, genreId, editeurId, featured } = req.body;
-        
+
         await prisma.jeux.create({
             data: {
                 titre,
                 description: description || "",
-                genreId: genreId ? parseInt(genreId) : null,
+                genreId: genreId ? parseInt(genreId) : null, // Utilisation de genreId
                 editeurId: editeurId ? parseInt(editeurId) : null,
                 featured: featured === "on",
             },
@@ -167,7 +167,7 @@ app.post("/jeux/:id/edit", async (req, res) => {
                 featured: featured === "on",
             },
         });
-        res.redirect(`/jeux`);
+        res.redirect(`/jeux/${req.params.id}`);
     } 
     catch (error) {
         console.error("Erreur mise à jour jeu:", error);
