@@ -265,13 +265,13 @@ app.post("/editeurs", async (req, res) => {
 // Détail d'un éditeur
 app.get("/editeurs/:id", async (req, res) => {
     try {
-        const editor = await prisma.editeurs.findUnique({
+        const editeur = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
             include: { jeux_publies: { orderBy: { nom: 'asc' } } },
         });
         
-        if (!editor) return res.status(404).send("Éditeur non trouvé");
-        res.render("editeurs/details", { editor });
+        if (!editeur) return res.status(404).send("Éditeur non trouvé");
+        res.render("editeurs/details", { editeur });
     } catch (error) {
         console.error("Erreur détail éditeur:", error);
         res.status(500).send("Erreur serveur");
