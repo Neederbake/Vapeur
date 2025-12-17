@@ -20,7 +20,6 @@ model Jeux{
   genre       String
   createdAt   DateTime @default(now())
   featured    Boolean @default(false)
-  genres      JeuxGenres[]
   editeurId   Int?
   editeur     Editeurs? @relation(fields: [editeurId], references: [id])
 }
@@ -34,9 +33,8 @@ model Genres{
 
 
 model JeuxGenres {
-  jeu     Jeux @relation(fields: [jeuId], references: [id], onDelete: Cascade)
   jeuId   Int
-  genre   Genres    @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  genre   Genres @relation(fields: [genreId], references: [id], onDelete: Cascade)
   genreId Int
   @@id    ([jeuId, genreId])
 }

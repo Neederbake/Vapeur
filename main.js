@@ -301,7 +301,7 @@ app.post("/editeurs/:id/edit", async (req, res) => {
             data: { nom: req.body.nom },
         });
         
-        res.redirect(`/editeurs/${req.params.id}`);
+        res.redirect(`/editeurs`);
     } catch (error) {
         console.error("Erreur mise à jour éditeur:", error);
         res.status(500).send("Erreur lors de la mise à jour");
