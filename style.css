@@ -444,6 +444,9 @@ option {
 .jeu-details p {
     margin-bottom: 0.75rem;
     font-size: 1.1rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .simple-list li {
