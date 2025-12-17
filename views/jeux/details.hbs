@@ -8,19 +8,19 @@
         <div class="jeu-details">
             <p><strong>Description :</strong> {{game.description}}</p>
             {{#if game.genres}}
-                <p><strong>Genre :</strong> <a href="/genres/{{game.genres.id}}" style="color: #00d4ff;">{{game.genres.nom}}</a></p>
+                <p><strong>Genre :</strong> <a href="/genres/{{game.genres.id}}" class="text-accent">{{game.genres.nom}}</a></p>
             {{else}}
                 <p><strong>Genre :</strong> Non spécifié</p>
             {{/if}}
             {{#if game.editeur}}
-                <p><strong>Éditeur :</strong> <a href="/editeurs/{{game.editeur.id}}" style="color: #00d4ff;">{{game.editeur.nom}}</a></p>
+                <p><strong>Éditeur :</strong> <a href="/editeurs/{{game.editeur.id}}" class="text-accent">{{game.editeur.nom}}</a></p>
             {{/if}}
         </div>
 
-        <div class="form-actions" style="margin-top: 2rem; border-top: 1px solid rgba(0,212,255,0.2); padding-top: 1rem;">
+        <div class="form-actions">
             <a href="/jeux/{{game.id}}/edit" class="btn btn-primary">Modifier</a>
             
-            <form action="/jeux/{{game.id}}/delete" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?');">
+            <form action="/jeux/{{game.id}}/delete" method="POST" class="inline-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce jeu ?');">
                 <button type="submit" class="btn btn-danger">Supprimer</button>
             </form>
         </div>
