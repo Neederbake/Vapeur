@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="page-header">
+		<h1>{{genre.nom}}</h1>
+	</div>
+
+	{{#if genre.jeux}}
+		<h2>Jeux du genre</h2>
+		<ul class="simple-list">
+			{{#each genre.jeux}}
+				<li><a href="/jeux/{{this.id}}" class="list-link">{{this.titre}}</a></li>
+			{{/each}}
+		</ul>
+	{{else}}
+		<p>Aucun jeu pour ce genre.</p>
+	{{/if}}
+</div>
