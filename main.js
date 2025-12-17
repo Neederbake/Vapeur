@@ -116,7 +116,7 @@ app.post("/jeux", async (req, res) => {
             return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
         }
         if (description && description.length > 400) {
-            return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
+            return res.status(400).send("La description ne peut pas dépasser 400 caractères");
         }
 
         await prisma.jeux.create({
@@ -220,7 +220,7 @@ app.post("/jeux/:id/edit", async (req, res) => {
             return res.status(400).send("Le titre ne peut pas dépasser 200 caractères");
         }
         if (description && description.length > 400) {
-            return res.status(400).send("La description ne peut pas dépasser 2000 caractères");
+            return res.status(400).send("La description ne peut pas dépasser 400 caractères");
         }
 
         await prisma.jeux.update({
