@@ -17,7 +17,6 @@ model Jeux{
   id          Int      @id @default(autoincrement())
   titre       String
   description String
-  genre       String
   createdAt   DateTime @default(now())
   featured    Boolean @default(false)
   genres      JeuxGenres[]

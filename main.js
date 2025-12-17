@@ -1,8 +1,3 @@
-// jeux implémentation
-// 
-
-
-
 
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
@@ -356,7 +351,7 @@ const { initializeGameGenres } = require('./js/seed');
 initializeGameGenres(prisma)
     .then(() => {
         app.listen(PORT, () => {
-            console.log(`✓ Serveur lancé sur http://localhost:${PORT}`);
+            console.log(`Serveur lancé sur http://localhost:${PORT}`);
         });
     })
     .catch((error) => {
