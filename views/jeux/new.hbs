@@ -16,17 +16,17 @@
         <select name="genre" id="genre" required>
             <option value="">Sélectionner un genres</option>
             {{#each genres}}
-                <option value="{{this.id}}">{{this.nom}}</option>
+                <option value="{{this.nom}}">{{this.nom}}</option>
             {{/each}}
         </select>
     </div>
 
     <div>
         <label for="editeur">Éditeur</label>
-        <select name="editeur" id="editeur" required>
+        <select name="editeurId" id="editeur" required>
             <option value="">Sélectionner un éditeur</option>
             {{#each editeurs}}
-            <option value="{{this.id}}">{{this.name}}</option>
+            <option value="{{this.id}}">{{this.nom}}</option>
             {{/each}}
         </select>
     </div>
