@@ -206,7 +206,7 @@ app.get("/genres/:id", async (req, res) => {
     try {
         const genres = await prisma.genres.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { jeux: { orderBy: { nom: 'asc' } } },
+            include: { jeux: { orderBy: { jeu: { titre: 'asc' } } } },
         });
         
         if (!genres) return res.status(404).send("Genre non trouvé");
@@ -267,7 +267,7 @@ app.get("/editeurs/:id", async (req, res) => {
     try {
         const editeur = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
-            include: { jeux_publies: { orderBy: { nom: 'asc' } } },
+            include: { jeux_publies: { orderBy: { titre: 'asc' } } },
         });
         
         if (!editeur) return res.status(404).send("Éditeur non trouvé");
@@ -281,12 +281,12 @@ app.get("/editeurs/:id", async (req, res) => {
 // Formulaire modification éditeur
 app.get("/editeurs/:id/edit", async (req, res) => {
     try {
-        const editor = await prisma.editeurs.findUnique({
+        const editeur = await prisma.editeurs.findUnique({
             where: { id: parseInt(req.params.id) },
         });
         
-        if (!editor) return res.status(404).send("Éditeur non trouvé");
-        res.render("editeurs/edit", { editor });
+        if (!editeur) return res.status(404).send("Éditeur non trouvé");
+        res.render("editeurs/edit", { editeur });
     } catch (error) {
         console.error("Erreur formulaire edit éditeur:", error);
         res.status(500).send("Erreur serveur");
@@ -298,7 +298,7 @@ app.post("/editeurs/:id/edit", async (req, res) => {
     try {
         await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
-            data: { titre: req.body.nom },
+            data: { nom: req.body.nom },
         });
         
         res.redirect(`/editeurs/${req.params.id}`);
