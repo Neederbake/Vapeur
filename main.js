@@ -298,7 +298,7 @@ app.post("/editeurs/:id/edit", async (req, res) => {
     try {
         await prisma.editeurs.update({
             where: { id: parseInt(req.params.id) },
-            data: { nom: req.body.nom },
+            data: { titre: req.body.nom },
         });
         
         res.redirect(`/editeurs/${req.params.id}`);
