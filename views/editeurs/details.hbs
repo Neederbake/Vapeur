@@ -6,7 +6,7 @@
 		<div class="actions">
 			<a href="/editeurs/{{editeur.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
 			{{!-- Formulaire de suppression avec confirmation --}}
-			<form action="/editeurs/{{editeur.id}}/delete" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cet éditeur ?');">
+			<form action="/editeurs/{{editeur.id}}/delete" method="POST" class="inline-form" onsubmit="return confirm('Supprimer cet éditeur ?');">
 				<button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
 			</form>
 		</div>
