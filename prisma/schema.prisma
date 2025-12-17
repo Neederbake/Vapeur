@@ -17,10 +17,10 @@ model Jeux{
   id          Int      @id @default(autoincrement())
   titre       String
   description String
-  genre       String
   createdAt   DateTime @default(now())
   featured    Boolean @default(false)
-  genres      JeuxGenres[]
+  genreId     Int?
+  genres      Genres? @relation(fields: [genreId], references: [id])
   editeurId   Int?
   editeur     Editeurs? @relation(fields: [editeurId], references: [id])
 }
@@ -29,17 +29,11 @@ model Jeux{
 model Genres{
   id        Int      @id @default(autoincrement())
   nom       String
-  jeux      JeuxGenres[]
+  jeux_publies Jeux[]
 }
 
 
-model JeuxGenres {
-  jeu     Jeux @relation(fields: [jeuId], references: [id], onDelete: Cascade)
-  jeuId   Int
-  genre   Genres @relation(fields: [genreId], references: [id], onDelete: Cascade)
-  genreId Int
-  @@id    ([jeuId, genreId])
-}
+
 
 
 model Editeurs{
