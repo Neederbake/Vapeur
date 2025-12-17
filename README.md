@@ -1,16 +1,9 @@
-#  Vapeur
+#  Vapeur ![Logo Vapeur](image/logo.png){ width="200" }
 
-To reduce the logo size, add width and height attributes or use HTML syntax:
 
-```markdown
-![Logo Vapeur](image/logo.png){ width="200" }
-```
 
-Or use HTML directly:
 
-```html
-<img src="image/logo.png" alt="Logo Vapeur" width="200" height="auto">
-```
+
 
 Replace `200` with your desired width in pixels.
 
