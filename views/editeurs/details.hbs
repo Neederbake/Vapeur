@@ -13,7 +13,7 @@
 		<h2>Jeux publiés</h2>
 		<ul class="simple-list">
 			{{#each editeur.jeux_publies}}
-				<li>{{this.titre}}</li>
+				<li><a href="/jeux/{{this.id}}" class="list-link">{{this.titre}}</a></li>
 			{{/each}}
 		</ul>
 	{{else}}
