@@ -110,6 +110,34 @@ app.post("/jeux", async (req, res) => {
     }
 });
 
+// Mettre un jeu en avant
+app.get("/jeux/:id/feature", async (req, res) => {
+    try {
+        await prisma.jeux.update({
+            where: { id: parseInt(req.params.id) },
+            data: { featured: true },
+        });
+        res.redirect("/jeux");
+    } catch (error) {
+        console.error("Erreur mise en avant jeu:", error);
+        res.status(500).send("Erreur lors de la mise en avant");
+    }
+});
+
+// Retirer un jeu de la mise en avant
+app.get("/jeux/:id/unfeature", async (req, res) => {
+    try {
+        await prisma.jeux.update({
+            where: { id: parseInt(req.params.id) },
+            data: { featured: false },
+        });
+        res.redirect("/jeux");
+    } catch (error) {
+        console.error("Erreur retrait mise en avant jeu:", error);
+        res.status(500).send("Erreur lors du retrait de la mise en avant");
+    }
+});
+
 // Détail d'un jeu
 app.get("/jeux/:id", async (req, res) => {
     try {

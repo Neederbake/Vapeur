@@ -12,6 +12,11 @@
                 <p style="flex: 1;">{{this.description}}</p>
                 <div class="card-actions">
                     <a href="/jeux/{{this.id}}" class="btn-edit">Voir détails</a>
+                    {{#if this.featured}}
+                        <a href="/jeux/{{this.id}}/unfeature" class="btn btn-secondary">Retirer de la mise en avant</a>
+                    {{else}}
+                        <a href="/jeux/{{this.id}}/feature" class="btn btn-primary">Mettre en avant</a>
+                    {{/if}}
                 </div>
             </div>
         {{else}}
