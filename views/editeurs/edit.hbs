@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Modifier l'éditeur</h1>
     
-    <form action="/editeurs/{{editor.id}}/edit" method="POST" class="form-card">
+    <form action="/editeurs/{{editeurs.id}}/edit" method="POST" class="form-card">
         <div class="form-group">
             <label for="nom">Nom de l'éditeur *</label>
             <input 
@@ -9,7 +9,7 @@
                 id="nom" 
                 name="nom" 
                 class="form-input" 
-                value="{{editor.nom}}"
+                value="{{editeurs.nom}}"
                 placeholder="Ex: Ubisoft, Electronic Arts, Activision..."
                 required
             >
@@ -17,7 +17,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
-            <a href="/editeurs/{{editor.id}}" class="btn btn-secondary">Annuler</a>
+            <a href="/editeurs/{{editeurs.id}}" class="btn btn-secondary">Annuler</a>
         </div>
     </form>
 </div>

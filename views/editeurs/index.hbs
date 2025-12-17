@@ -4,9 +4,9 @@
         <a href="/editeurs/new" class="btn btn-primary add-editor">➕ Nouvel éditeur</a>
     </div>
 
-    {{#if editors}}
+    {{#if editeurs}}
         <div class="cards">
-            {{#each editors}}
+            {{#each editeurs}}
                 <a href="/editeurs/{{this.id}}" class="card">
                     <h3 class="name">{{this.nom}}</h3>
                     <div class="meta">

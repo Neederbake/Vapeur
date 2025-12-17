@@ -1,18 +1,18 @@
 <div class="container">
 	<div class="page-header">
-		<h1>{{editor.nom}}</h1>
+		<h1>{{editeurs.nom}}</h1>
 		<div class="actions">
-			<a href="/editeurs/{{editor.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
-			<form action="/editeurs/{{editor.id}}/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer cet éditeur ?');">
+			<a href="/editeurs/{{editeurs.id}}/edit" class="btn btn-secondary">✏️ Modifier</a>
+			<form action="/editeurs/{{editeurs.id}}/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer cet éditeur ?');">
 				<button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
 			</form>
 		</div>
 	</div>
 
-	{{#if editor.jeux_publies}}
+	{{#if editeurs.jeux_publies}}
 		<h2>Jeux publiés</h2>
 		<ul class="simple-list">
-			{{#each editor.jeux_publies}}
+			{{#each editeurs.jeux_publies}}
 				<li>{{this.titre}}</li>
 			{{/each}}
 		</ul>
