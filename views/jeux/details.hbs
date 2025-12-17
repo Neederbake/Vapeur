@@ -1,0 +1,19 @@
+<h1>{{jeu.titre}}</h1>
+
+<div class="jeu-details">
+    <p><strong>Description :</strong> {{jeu.description}}</p>
+    <p><strong>Genre :</strong> {{jeu.genre}}</p>
+    <!-- Ajoute ici d'autres informations comme l'éditeur, la date de sortie, etc. -->
+</div>
+
+<div class="actions">
+    <a href="/jeux/{{jeu.id}}/edit">Modifier</a>
+    <a href="/jeux">Retour à la liste</a>
+    
+    <!-- Exemple de formulaire pour la suppression -->
+    <!--
+    <form action="/jeux/{{jeu.id}}/delete" method="POST" style="display:inline;">
+        <button type="submit">Supprimer</button>
+    </form>
+    -->
+</div>

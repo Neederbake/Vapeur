@@ -1,0 +1,16 @@
+<h1>Liste des Jeux</h1>
+
+<a href="/jeux/new" class="btn">Ajouter un jeu</a>
+
+<div class="jeux-list">
+    {{#each jeux}}
+        <div class="jeu-item">
+            <h2>{{this.titre}}</h2>
+            <p>{{this.description}}</p>
+            <a href="/jeux/{{this.id}}">Voir détails</a>
+            <!-- Tu peux ajouter ici les liens pour éditer ou supprimer -->
+        </div>
+    {{else}}
+        <p>Aucun jeu trouvé.</p>
+    {{/each}}
+</div>
